@@ -2,9 +2,11 @@
 
 source "https://rubygems.org"
 
-git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
+gem 'cuba'
+gem 'json'
 gem 'mysql2'
-gem 'sinatra'
-#gem 'json'
+gem 'net/http'
 gem 'rspec'
+gem 'sinatra'
