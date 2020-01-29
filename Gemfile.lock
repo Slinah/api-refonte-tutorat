@@ -21,6 +21,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.0)
+    sequel (5.27.0)
     sinatra (2.0.7)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -35,6 +36,7 @@ DEPENDENCIES
   json
   mysql2
   rspec
+  sequel
   sinatra
 
 BUNDLED WITH
