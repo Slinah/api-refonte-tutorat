@@ -28,3 +28,7 @@ end
 get '/promoPercentMat/:intitule' do |i|
   getPercentMat(i)
 end
+
+get '/unclosedCourses' do
+  getUnclosedCourses
+end
