@@ -16,3 +16,10 @@ class Base
 
   attr_reader :pass
 end
+
+
+Bdd = Base.new
+Bdd.init
+OpenConnectBdd = Mysql2::Client.new(host: Bdd.host,
+                                    database: Bdd.database,
+                                    user: Bdd.user)
