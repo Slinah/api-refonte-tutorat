@@ -5,8 +5,14 @@ load 'requests/conf.rb'
 
 
 def getUnclosedCourses
-  ro = OpenConnectBdd.query('SELECT e.intitule AS ecole, po.promo AS promo, c.intitule AS intitule, m.intitule AS matiere, c.date AS date, c.heure AS heure, c.salle AS salle, c.stage AS stage, p.nom AS nom, p.prenom AS prenom FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo JOIN ecole e ON po.id_ecole=e.id_ecole JOIN personne_cours cp ON c.id_cours=cp.id_cours JOIN personne p ON p.id_personne=cp.id_personne WHERE c.status=0 ')
-  h = ro.each(&:to_h)
-  h.to_json
+  ro = OpenConnectBdd.query('SELECT c.intitule AS initule, c.heure AS heure, c.date AS date, c.salle AS salle, m.intitule AS matiere, po.promo AS promo, p.nom AS nom, p.prenom AS prenom FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND pc.rang_personne = 1')
+  hash = ro.each(&:to_h)
+  hash.to_json
 end
 
+def getCourseOfASpecificUser(lastname, firstname)
+  ro = OpenConnectBdd.prepare('SELECT c.intitule AS initule, c.heure AS heure, c.date AS date, c.salle AS salle, m.intitule AS matiere, po.promo AS promo, pc.rang_personne AS rang FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND p.nom=? AND p.prenom=?')
+  ro = ro.execute(lastname, firstname)
+  hash = ro.each(&:to_h)
+  hash.to_json
+end

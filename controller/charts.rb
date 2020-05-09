@@ -19,7 +19,7 @@ end
 # ROUTE : {GET}/promoHeuresMatieres/{intitulePromo}
 # PARAM : STRING -> Intitule Promo
 # RETURN : JSON of Hours by Matiere and by Promo
-get '/apipromoHeuresMatieres/:intitule' do |i|
+get '/api/PromoHeuresMatieres/:intitule' do |i|
   getHeuresMatiere(i)
 end
 
