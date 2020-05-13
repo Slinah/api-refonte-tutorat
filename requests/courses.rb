@@ -16,3 +16,10 @@ def getCourseOfASpecificUser(lastname, firstname)
   hash = ro.each(&:to_h)
   hash.to_json
 end
+
+def getUnclosedCoursesByIntitule(intitule)
+  request_object = OpenConnectBdd.prepare('SELECT c.intitule AS initule, c.heure AS heure, c.date AS date, c.salle AS salle, m.intitule AS matiere, po.promo AS promo FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo WHERE c.status = 0 AND po.promo = ?')
+  request_object = request_object.execute(intitule)
+  hash = request_object.each(&:to_h)
+  hash.to_json
+end

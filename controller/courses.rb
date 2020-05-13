@@ -18,3 +18,13 @@ end
 post '/api/peopleCourse' do
   getCourseOfASpecificUser(params[:lastname], params[:firstname])
 end
+
+
+# ROUTE : {POST}/api/unclosedCoursesPromo
+# PARAM : STRING -> name_promo(intitule promo)
+# RETURN : JSON of courses for a specified promo
+# EXAMPLE : /api/unclosedCoursesPromo/B1
+post '/api/unclosedCoursesPromo/:name_promo' do |name_promo|
+  getUnclosedCoursesByIntitule(name_promo)
+end
+
