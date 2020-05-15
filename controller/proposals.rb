@@ -4,8 +4,8 @@
 load 'requests/proposals.rb'
 
 
-# ROUTE : {GET}/api/unclosedCourses
-# RETURN : JSON of Tuteur, matière, unclosed courses
+# ROUTE : {GET}/api/unclosedProposals
+# RETURN : JSON of matière, unclosed proposals
 get '/api/unclosedProposals' do
   getUnclosedProposals
 end

@@ -11,10 +11,10 @@ get '/api/fromLogsGetLatestCourse' do
 end
 
 
-# ROUTE : {DELETE}/api/deleteLogCourse/:idCourse
+# ROUTE : {DELETE}/api/unsetLogCourse/:idCourse
 # PARAM : STRING id_cours
 # RETURN : JSON of latest inserted course
-# EXAMPLE : /api/deleteLogCourse/A7516064-F3FB-41BB-815C-A195DE9E92C9
+# EXAMPLE : /api/unsetLogCourse/A7516064-F3FB-41BB-815C-A195DE9E92C9
 delete '/api/unsetLogCourse/:idCourse' do |id_course|
   deleteLogCourseById(id_course)
 end
