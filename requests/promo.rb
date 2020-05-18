@@ -9,3 +9,13 @@ def vExistsPromo(intitule)
   request_object = request_object.execute(intitule)
   request_object.each(&:to_h)
 end
+
+def getPromo
+  request_object = OpenConnectBdd.query('SELECT promo FROM promo')
+  hash = request_object.each(&:to_h)
+  if hash.length.zero?
+    'Pas de promos dans la base de données.'
+  else
+    hash.to_json
+  end
+end
