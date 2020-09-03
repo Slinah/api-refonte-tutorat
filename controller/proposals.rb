@@ -4,9 +4,9 @@
 load 'requests/proposals.rb'
 
 
-# ROUTE : {GET}/api/unclosedProposals
+# ROUTE : {GET}/bot/unclosedProposals
 # RETURN : JSON of matière, unclosed proposals
-get '/api/unclosedProposals' do
+get '/bot/unclosedProposals' do
   getUnclosedProposals
 end
 
