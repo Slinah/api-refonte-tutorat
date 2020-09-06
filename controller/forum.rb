@@ -8,7 +8,7 @@ load 'requests/forum.rb'
 #
 #  Liste des question par ordre chronologique
 #   (possibilite de trie par nombre de vote)
-# Il faut donc une func qui recup la liste des question : / Titre, content, autheur, matiere, nb de vote , nb de com/
+# Il faut donc une func qui recup la liste des question : / Titre, content, autheur, matiere, nb de vote , nb de com, ouverte ou resolu /
 # puis quand clique sur un post :
 # acces au details des commentaire avec possibilité de repondre
 #
@@ -38,7 +38,6 @@ end
 get '/api/getForumQuestions' do
   getUnclosedCourses
 end
-
 
 
 # ROUTE : {POST}/bot/peopleCourse
