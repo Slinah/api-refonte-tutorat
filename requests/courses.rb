@@ -35,7 +35,7 @@ def getUnclosedCoursesByIntitule(intitule)
   if vExistsPromo(intitule).length.zero?
     'Cette promo n\'existe pas dans notre base.'
   else
-    request_object = OpenConnectBdd.prepare('SELECT c.intitule AS intiule, c.heure AS heure, c.date AS date, c.salle AS salle, m.intitule AS matiere, po.intitule AS promo FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo WHERE c.status = 0 AND po.intitule = ?')
+    request_object = OpenConnectBdd.prepare('SELECT c.intitule AS intitule, c.heure AS heure, c.date AS date, c.salle AS salle, m.intitule AS matiere, po.intitule AS promo FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo WHERE c.status = 0 AND po.intitule = ?')
     request_object = request_object.execute(intitule)
   end
   hash = request_object.each(&:to_h)
