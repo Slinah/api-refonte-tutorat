@@ -4,7 +4,6 @@
 load 'requests/forum.rb'
 
 
-
 #
 #  Liste des question par ordre chronologique
 #   (possibilite de trie par nombre de vote)
@@ -16,21 +15,16 @@ load 'requests/forum.rb'
 #
 
 
-
-
-
-
 # ROUTE : {GET}/bot/unclosedCourses
 # RETURN : JSON of Tuteur, matière, unclosed courses
 get '/api/getForumQuestions' do
-  getUnclosedCourses
+  getForumQuestions
 end
-
 
 
 # RETURN : JSON of Tuteur, matière, unclosed courses
 get '/api/getQuestion/:id_question' do |id_question|
-  getUnclosedCourses
+  getQuestion(id_question)
 end
 
 
