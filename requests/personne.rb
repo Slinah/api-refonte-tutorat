@@ -16,7 +16,7 @@ def vExistsPersonneByMail(mail)
   # request_object.each(&:to_h)
   # puts(request_object)
 end
-puts(vExistsPersonneByMail('cedr.men@gmail.com')[0])
+
 def getPeopleByMail(mail)
   unless [nil, 0].include?(vExistsPersonne(mail)[0])
     # request_object = OpenConnectBdd.prepare()
