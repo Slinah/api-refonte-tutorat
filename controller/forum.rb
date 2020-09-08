@@ -11,8 +11,6 @@ load 'requests/forum.rb'
 # puis quand clique sur un post :
 # acces au details des commentaire avec possibilité de repondre
 #
-#
-#
 
 
 # ROUTE : {GET}/bot/unclosedCourses
@@ -28,12 +26,6 @@ get '/api/getQuestion/:id_question' do |id_question|
 end
 
 
-# RETURN : JSON of Tuteur, matière, unclosed courses
-get '/api/getMatiere' do
-  getMatiere()
-end
-
-
 # ROUTE : {POST}/bot/peopleCourse
 # PARAM : STRING -> lastname(nom) ~/~ STRING -> firstname(prénom)
 # RETURN : JSON of courses for a specified people
@@ -41,6 +33,21 @@ end
 post '/api/createForumQuestion' do
   createForumQuestion(params[:titre], params[:description], params[:id_personne], params[:id_matiere])
 end
+
+
+# RETURN : JSON of Tuteur, matière, unclosed courses
+get '/api/getMatiere' do
+  getMatiere
+end
+
+
+# RETURN : JSON of Tuteur, matière, unclosed courses
+get '/api/getCommentaire/:id_question' do |id_question|
+  getComentaire(id_question)
+end
+
+
+
 
 
 
