@@ -29,8 +29,8 @@ end
 
 
 # RETURN : JSON of Tuteur, matière, unclosed courses
-get '/api/getForumQuestions' do
-  getUnclosedCourses
+get '/api/getMatiere' do
+  getMatiere()
 end
 
 
@@ -39,8 +39,11 @@ end
 # RETURN : JSON of courses for a specified people
 # EXAMPLE : /bot/peopleCourse?lastname=Menanteau&firstname=Cédric
 post '/api/createForumQuestion' do
-  getCourseOfASpecificUser(params[:lastname], params[:firstname])
+  createForumQuestion(params[:titre], params[:description], params[:id_personne], params[:id_matiere])
 end
+
+
+
 
 # ROUTE : {POST}/bot/peopleCourse
 # PARAM : STRING -> lastname(nom) ~/~ STRING -> firstname(prénom)
