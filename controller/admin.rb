@@ -33,3 +33,24 @@ end
 post '/api/addSubject' do
   postAddSubject(params[:intitule])
 end
+
+# ROUTE : {POST}/addSchool
+# PARAM : STRING -> Intitule of the school
+# RETURN : X
+post '/api/addSchool' do
+  postAddSchool(params[:intitule])
+end
+
+# ROUTE : {POST}/addClass
+# PARAM : STRING -> Intitule of the class
+# RETURN : X
+post '/api/addClass' do
+  postAddClass(params[:intitule])
+end
+
+# ROUTE : {POST}/addLevel
+# PARAM : STRING -> Intitule of the level
+# RETURN : X
+post '/api/addLevel' do
+  postAddLevel(params[:intitule])
+end

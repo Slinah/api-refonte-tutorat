@@ -28,3 +28,25 @@ def postAddSubject(intitule)
   ro = OpenConnectBdd.prepare('INSERT INTO matiere (id_matiere, intitule, validationAdmin) VALUES (?, ?, 1)')
   ro.execute( uuid , intitule)
 end
+
+# method to add a school
+def postAddSchool(intitule)
+  uuid = SecureRandom.uuid
+  ro = OpenConnectBdd.prepare('INSERT INTO ecole (id_ecole, intitule) VALUES (?, ?)')
+  ro.execute(uuid, intitule)
+end
+
+# method to add a class
+# Comment lié la nouvelle classe à la bonne promo ?
+def postAddClass(intitule)
+  uuid = SecureRandom.uuid
+  ro = OpenConnectBdd.prepare('INSERT INTO classe (id_classe, intitule) VALUES (?, ?)')
+  ro.execute(uuid, intitule)
+end
+
+# method to add a level
+def postAddLevel(intitule)
+  uuid = SecureRandom.uuid
+  ro = OpenConnectBdd.prepare('INSERT INTO niveau (id_niveau, intitule) VALUES (?, ?)')
+  ro.execute(uuid, intitule)
+end
