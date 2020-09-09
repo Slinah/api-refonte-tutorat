@@ -57,13 +57,13 @@ def getCourseOfTheDay
 end
 
 def getNbrOfCourse
-  request_object = OpenConnectBdd.query('SELECT COUNT(id_cours) as countCourse FROM cours')
+  request_object = OpenConnectBdd.query('SELECT COUNT(id_log) as countCourse FROM logs')
   hash = request_object.each(&:to_h)
     hash.to_json
 end
 
 def getLatestCourse
-  request_object = OpenConnectBdd.query('SELECT c.heure, c.date, m.intitule as nomMatiere, c.intitule as nomCours, p.intitule as nomPromo FROM cours c join matiere m on c.id_matiere=m.id_matiere join promo p on c.id_promo=p.id_promo ORDER BY c.date DESC LIMIT 1')
+  request_object = OpenConnectBdd.query('SELECT c.id_cours, c.heure, c.date, m.intitule as nomMatiere, c.intitule as nomCours, p.intitule as nomPromo FROM cours c join matiere m on c.id_matiere=m.id_matiere join promo p on c.id_promo=p.id_promo ORDER BY c.date DESC LIMIT 1')
   hash = request_object.each(&:to_h)
     hash.to_json
 end
