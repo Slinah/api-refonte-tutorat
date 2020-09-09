@@ -10,8 +10,17 @@ def vExistsPersonne(lastname, firstname)
   request_object.each(&:to_h)
 end
 
-def vExistsPersonneByID(idPersonne)
-  request_object = OpenConnectBdd.prepare('SELECT nom, prenom FROM personne WHERE id_personne=?')
-  request_object = request_object.execute([ idPersonne ])
-  request_object.each(&:to_h)
+def vExistsPersonneByMail(mail)
+  request_object = OpenConnectBdd.prepare('SELECT COUNT(*) FROM personne WHERE mail=?')
+  request_object = request_object.execute(mail)
+  # request_object.each(&:to_h)
+  # puts(request_object)
+end
+
+def getPeopleByMail(mail)
+  unless [nil, 0].include?(vExistsPersonne(mail)[0])
+    # request_object = OpenConnectBdd.prepare()
+    # request_object = request_object.execute(mail)
+    # request_object.each(&:to_h)
+  end
 end
