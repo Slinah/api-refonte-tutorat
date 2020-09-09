@@ -9,4 +9,3 @@ load 'requests/proposals.rb'
 get '/bot/unclosedProposals' do
   getUnclosedProposals
 end
-

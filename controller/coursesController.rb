@@ -28,3 +28,14 @@ post '/bot/unclosedCoursesPromo/:name_promo' do |name_promo|
   getUnclosedCoursesByIntitule(name_promo)
 end
 
+# ROUTE : {GET}/bot/courseOfTheDay
+# RETURN : JSON of intitule, heure, date, salle , matière, promo
+get '/bot/getCourseOfTheDay' do
+  getCourseOfTheDay
+end
+
+# ROUTE : {GET}/bot/getNbrOfCourse
+# RETURN : JSON of count of id_cours
+get '/bot/getNbrOfCourse' do
+  getNbrOfCourse
+end
