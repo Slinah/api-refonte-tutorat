@@ -39,3 +39,9 @@ end
 get '/bot/getNbrOfCourse' do
   getNbrOfCourse
 end
+
+# ROUTE : {GET}/bot/GetLatestcourse
+# RETURN : JSON of id_promo, heure, date, id_matiere, intitule, salle
+get '/bot/getLatestCourse' do
+  getLatestCourse
+end
