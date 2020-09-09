@@ -37,7 +37,6 @@ def postAddSchool(intitule)
 end
 
 # method to add a class
-# Comment lié la nouvelle classe à la bonne promo ?
 def postAddClass(intitule)
   uuid = SecureRandom.uuid
   ro = OpenConnectBdd.prepare('INSERT INTO classe (id_classe, intitule) VALUES (?, ?)')
