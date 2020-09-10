@@ -3,7 +3,7 @@
 class Base
   def init
     @host = 'localhost'
-    @database = 'tutoratrefonte'
+    @database = 'tutorat'
     @user = 'root'
     @pass = ''
   end
