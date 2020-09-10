@@ -9,7 +9,6 @@ get '/bot/getLatestCourse' do
   getLatestCourseByLogs
 end
 
-
 # ROUTE : {DELETE}/bot/unsetLogCourse/:idCourse
 # PARAM : STRING id_cours
 # RETURN : JSON of latest inserted course
@@ -17,14 +16,6 @@ end
 delete '/bot/unsetLogCourse/:idCourse' do |id_course|
   deleteLogCourseById(id_course)
 end
-
-
-# ROUTE : {GET}/bot/fromLogsGetLatestProposal
-# RETURN : JSON of latest inserted proposal
-get '/bot/fromLogsGetLatestProposal' do
-  getLatestProposalByLogs
-end
-
 
 # ROUTE : {DELETE}/bot/deleteLogProposal/:idProposal
 # PARAM : STRING id_proposal
@@ -42,6 +33,6 @@ end
 
 # ROUTE : {GET}/bot/getLatestProposition
 # RETURN : JSON of id_promo, heure, date, id_matiere, intitule, salle
-get '/bot/getLatestProposition' do
-  getLatestPropositionByLogs
+get '/bot/getLatestProposal' do
+  getLatestProposalsByLogs
 end
