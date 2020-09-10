@@ -4,15 +4,14 @@ require 'mysql2'
 load 'requests/conf.rb'
 
 def getLatestCourseByLogs
-  request_object = OpenConnectBdd.query('SELECT c.id_cours AS id_cours, c.intitule AS intitule, c.heure AS heure, c.date AS date, c.salle AS salle, m.intitule AS matiere, po.intitule AS promo, p.nom AS nom, p.prenom AS prenom FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.id_cours=(SELECT l.id_cours FROM logs l)')
+  request_object = OpenConnectBdd.query('SELECT l.id_cours as logIdCours, l.id_cours, l.heure as logDateHeure, m.intitule as nomMatiere, c.intitule as nomCours, p.intitule as nomPromo FROM logs l JOIN cours c on c.id_cours=l.id_cours JOIN matiere m on c.id_matiere=m.id_matiere JOIN promo p on c.id_promo=p.id_promo ORDER BY l.heure ASC LIMIT 1')
   hash = request_object.each(&:to_h)
   if hash.length.zero?
-    'Pas de nouveaux cours pour le moment.'
+    'Pas de nouvelles propositions pour le moment.'
   else
     hash.to_json
   end
 end
-
 
 def deleteLogCourseById(id_course)
   request_object = OpenConnectBdd.prepare('DELETE FROM logs WHERE id_cours=?')
@@ -32,10 +31,21 @@ def getLatestProposalByLogs
   end
 end
 
-
 def deleteLogProposalById(id_proposal)
   request_object = OpenConnectBdd.prepare('DELETE FROM logs_proposition WHERE id_proposition=?')
   request_object.execute(id_proposal)
   body 'Proposal log successfully deleted from database'
   status 200
+end
+
+def getNbrOfCourseInLog
+  request_object = OpenConnectBdd.query('SELECT COUNT(id_log) as countCourse FROM logs')
+  hash = request_object.each(&:to_h)
+  hash.to_json
+end
+
+def getLatestPropositionByLogs
+  request_object = OpenConnectBdd.query('SELECT lp.id_log as IdLogProposal, lp.heure as hourProposals, m.intitule as nomMatiere, pe.nom, pe.prenom FROM logs_proposition lp JOIN proposition p on p.id_proposition=lp.id_proposition JOIN matiere m on p.id_matiere=m.id_matiere JOIN personne pe on p.id_createur=pe.id_personne ORDER BY lp.heure ASC LIMIT 1')
+  hash = request_object.each(&:to_h)
+  hash.to_json
 end
