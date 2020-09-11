@@ -4,15 +4,6 @@
 load 'requests/forum.rb'
 
 
-#
-#  Liste des question par ordre chronologique
-#   (possibilite de trie par nombre de vote)
-# Il faut donc une func qui recup la liste des question : / Titre, content, autheur, matiere, nb de vote , nb de com, ouverte ou resolu /
-# puis quand clique sur un post :
-# acces au details des commentaire avec possibilité de repondre
-#
-
-
 # ROUTE : {GET}/bot/unclosedCourses
 # RETURN : JSON of Tuteur, matière, unclosed courses
 get '/api/getForumQuestions' do
@@ -47,9 +38,15 @@ get '/api/getCommentaire/:id_question' do |id_question|
 end
 
 
+# RETURN : JSON of Tuteur, matière, unclosed courses
+get '/api/getCommentaireReply/:id_comment' do |id_comment|
+  headers 'Access-Control-Allow-Origin' => 'http://tutorat-workshop'
+  getComentaireReply(id_comment)
+end
 
-
-
+post '/api/upvoteQuestion' do
+  upvoteQuestion(params[:id_personne], params[:id_question])
+end
 
 
 # ROUTE : {POST}/bot/peopleCourse
@@ -57,7 +54,7 @@ end
 # RETURN : JSON of courses for a specified people
 # EXAMPLE : /bot/peopleCourse?lastname=Menanteau&firstname=Cédric
 post '/api/postComQuestion' do
-  getCourseOfASpecificUser(params[:lastname], params[:firstname])
+  postComQuestion(params[:id_personne], params[:content], params[:id_question])
 end
 
 # ROUTE : {POST}/bot/peopleCourse
@@ -65,6 +62,6 @@ end
 # RETURN : JSON of courses for a specified people
 # EXAMPLE : /bot/peopleCourse?lastname=Menanteau&firstname=Cédric
 post '/api/replyComQuestion' do
-  getCourseOfASpecificUser(params[:lastname], params[:firstname])
+  replyComQuestion(params[:id_personne], params[:content], params[:id_comment])
 end
 
