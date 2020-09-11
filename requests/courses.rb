@@ -16,18 +16,24 @@ def getUnclosedCourses
   end
 end
 
-def getCourseOfASpecificUser(lastname, firstname)
+def getCoursesOfASpecificUser(lastname, firstname)
   if vExistsPersonne(lastname, firstname).length.zero?
-    'Cette personne n\'existe pas dans notre base.'
+    #'Cette personne n\'existe pas dans notre base.'
+    result = {"noPers" => "Cette personne n'existe pas dans notre base."}
+    result.to_json
   else
-    request_object = OpenConnectBdd.prepare('SELECT c.intitule AS intitule, c.heure AS heure, c.date AS date, c.salle AS salle, m.intitule AS matiere, po.promo AS promo, pc.rang_personne AS rang FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND p.nom=? AND p.prenom=?')
+    request_object = OpenConnectBdd.prepare('SELECT c.intitule AS intitule, c.date AS date, c.salle
+ AS salle, m.intitule AS matiere, po.intitule AS promo, pc.rang_personne AS rang FROM cours c JOIN matiere m ON
+ c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo JOIN personne_cours pc ON c.id_cours=pc.id_cours
+JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND p.nom=? AND p.prenom=?')
     request_object = request_object.execute(lastname, firstname)
-  end
-  hash = request_object.each(&:to_h)
-  if hash.length.zero?
-    'Pas de cours à venir pour cette personne.'
-  else
-    hash.to_json
+    hash = request_object.each(&:to_h)
+    if hash.length.zero?
+      result = {"noCours" => "Pas de cours à venir pour cette personne."}
+      result.to_json
+    else
+      hash.to_json
+    end
   end
 end
 
@@ -35,12 +41,13 @@ def getUnclosedCoursesByIntitule(intitule)
   if vExistsPromo(intitule).length.zero?
     'Cette promo n\'existe pas dans notre base.'
   else
-    request_object = OpenConnectBdd.prepare('SELECT c.intitule AS intitule, c.heure AS heure, c.date AS date, c.salle AS salle, m.intitule AS matiere, po.intitule AS promo FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo WHERE c.status = 0 AND po.intitule = ?')
+    request_object = OpenConnectBdd.prepare('SELECT c.intitule AS intitule, c.date AS date, c.salle AS salle, m.intitule AS matiere, po.intitule AS promo FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo WHERE c.status = 0 AND po.intitule = ?')
     request_object = request_object.execute(intitule)
   end
   hash = request_object.each(&:to_h)
   if hash.length.zero?
-    'Pas de cours à venir pour cette promo.'
+    result = {"error" => "Pas de cours à venir pour cette promo."}
+    result.to_json
   else
     hash.to_json
   end

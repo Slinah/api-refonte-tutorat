@@ -16,7 +16,7 @@ end
 # RETURN : JSON of courses for a specified people
 # EXAMPLE : /bot/peopleCourse?lastname=Menanteau&firstname=Cédric
 post '/bot/peopleCourse' do
-  getCourseOfASpecificUser(params[:lastname], params[:firstname])
+  getCoursesOfASpecificUser(params[:lastname], params[:firstname])
 end
 
 

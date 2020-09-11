@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'sinatra'
+load 'controller/forumController.rb'
+load 'controller/adminController.rb'
 load 'controller/chartsController.rb'
 load 'controller/coursesController.rb'
 load 'controller/logsController.rb'
