@@ -99,7 +99,7 @@ end
 
 # method to get all users of the site
 def getAllUsers
-  ro = OpenConnectBdd.query('SELECT p.id_personne, p.id_classe, p.nom, p.prenom, p.role, p.token, p.image, c.id_promo, c.intitule as intituleClass, pro.intitule as intitulePromo, pro.id_ecole, ec.intitule as intituleEcole  FROM personne p LEFT JOIN classe c ON p.id_classe = c.id_classe LEFT JOIN promo pro ON c.id_promo=pro.id_promo LEFT JOIN ecole ec ON pro.id_ecole = ec.id_ecole')
+  ro = OpenConnectBdd.query('SELECT p.id_personne, p.id_classe, p.nom, p.prenom, p.role, p.token, p.image, c.id_promo, c.intitule as intituleClass, pro.intitule as intitulePromo, pro.id_ecole, ec.intitule as intituleEcole  FROM personne p LEFT JOIN classe c ON p.id_classe = c.id_classe LEFT JOIN promo pro ON c.id_promo=pro.id_promo LEFT JOIN ecole ec ON pro.id_ecole = ec.id_ecole ORDER BY p.nom')
   hash = ro.each(&:to_h)
   if hash.length.zero?
     'Impossible d\'acceder aux utilisateurs.'
@@ -109,7 +109,7 @@ def getAllUsers
 end
 
 def getAllSubjects
-  ro = OpenConnectBdd.query('SELECT * FROM matiere')
+  ro = OpenConnectBdd.query('SELECT * FROM matiere ORDER BY intitule')
   hash = ro.each(&:to_h)
   if hash.length.zero?
     'Pas de matiere disponible'
@@ -119,7 +119,7 @@ def getAllSubjects
 end
 
 def getAllSchools
-  ro = OpenConnectBdd.query('SELECT * FROM ecole')
+  ro = OpenConnectBdd.query('SELECT * FROM ecole ORDER BY intitule')
   hash = ro.each(&:to_h)
   if hash.length.zero?
     'Pas d\'ecole disponible'
@@ -129,7 +129,7 @@ def getAllSchools
 end
 
 def getPromoFromSchool
-  ro = OpenConnectBdd.query('SELECT ec.id_ecole, ec.intitule as intituleEcole, pro.id_promo, pro.intitule as intitulePromo FROM promo pro JOIN ecole ec ON pro.id_ecole = ec.id_ecole WHERE pro.id_ecole = ec.id_ecole')
+  ro = OpenConnectBdd.query('SELECT ec.id_ecole, ec.intitule as intituleEcole, pro.id_promo, pro.intitule as intitulePromo FROM promo pro JOIN ecole ec ON pro.id_ecole = ec.id_ecole WHERE pro.id_ecole = ec.id_ecole ORDER BY intitulePromo')
   hash = ro.each(&:to_h)
   if hash.length.zero?
     'Pas de promo lié à cette école.'
@@ -139,7 +139,7 @@ def getPromoFromSchool
 end
 
 def getClassFromPromo
-  ro = OpenConnectBdd.query('SELECT pro.id_promo, pro.intitule as intitulePromo, cl.id_classe, cl.intitule as intituleClasse FROM classe cl JOIN promo pro ON pro.id_promo = cl.id_promo WHERE cl.id_promo = pro.id_promo')
+  ro = OpenConnectBdd.query('SELECT pro.id_promo, pro.intitule as intitulePromo, cl.id_classe, cl.intitule as intituleClasse FROM classe cl JOIN promo pro ON pro.id_promo = cl.id_promo WHERE cl.id_promo = pro.id_promo ORDER BY intituleClasse')
   hash = ro.each(&:to_h)
   if hash.length.zero?
     'Pas de classe lié à cette promo.'
