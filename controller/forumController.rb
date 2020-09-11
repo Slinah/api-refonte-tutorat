@@ -37,6 +37,13 @@ get '/api/getCommentaire/:id_question' do |id_question|
   getComentaire(id_question)
 end
 
+
+# RETURN : JSON of Tuteur, matière, unclosed courses
+get '/api/getComentaireReply/:id_comment' do |id_comment|
+  headers 'Access-Control-Allow-Origin' => 'http://tutorat-workshop'
+  getComentaireReply(id_comment)
+end
+
 post '/api/upvoteQuestion' do
   upvoteQuestion(params[:id_personne], params[:id_question])
 end
