@@ -34,7 +34,7 @@ def getNbrOfCourseInLog
 end
 
 def getLatestProposalsByLogs
-  request_object = OpenConnectBdd.query('SELECT lp.id_log as IdLogProposal, lp.heure as hourProposals, m.intitule as nomMatiere, pe.nom, pe.prenom FROM logs_proposition lp JOIN proposition p on p.id_proposition=lp.id_proposition JOIN matiere m on p.id_matiere=m.id_matiere JOIN personne pe on p.id_createur=pe.id_personne ORDER BY lp.heure ASC LIMIT 1')
+  request_object = OpenConnectBdd.query('SELECT lp.id_proposition as IdLogProposal, lp.heure as hourProposals, m.intitule as nomMatiere, pe.nom, pe.prenom, pro.intitule as nomPromo FROM logs_proposition lp JOIN proposition p on p.id_proposition=lp.id_proposition JOIN matiere m on p.id_matiere=m.id_matiere JOIN personne pe on p.id_createur=pe.id_personne JOIN proposition_promo po on p.id_proposition=po.id_proposition JOIN promo pro on pro.id_promo=po.id_promo ORDER BY lp.heure ASC LIMIT 1')
   hash = request_object.each(&:to_h)
   hash.to_json
   if hash.length.zero?
