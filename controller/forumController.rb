@@ -39,7 +39,7 @@ end
 
 
 # RETURN : JSON of Tuteur, matière, unclosed courses
-get '/api/getComentaireReply/:id_comment' do |id_comment|
+get '/api/getCommentaireReply/:id_comment' do |id_comment|
   headers 'Access-Control-Allow-Origin' => 'http://tutorat-workshop'
   getComentaireReply(id_comment)
 end
