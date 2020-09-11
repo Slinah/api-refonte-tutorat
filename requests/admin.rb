@@ -33,6 +33,12 @@ def postAddSubject(intitule)
   ro.execute( uuid , intitule)
 end
 
+# method to validate a subject
+def postValidateSubject(idSubject)
+  ro = OpenConnectBdd.prepare('UPDATE matiere SET validationAdmin=1 WHERE matiere.id_matiere= ? ')
+  ro.execute(idSubject)
+end
+
 # method to delete a subject
 def postDeleteSubject(idSubject)
   ro = OpenConnectBdd.prepare('DELETE FROM matiere WHERE id_matiere= ?')
@@ -66,7 +72,6 @@ def postDeletePromo(idPromo)
 end
 
 # method to add a class
-# TODO a modif pour ajouter dans quel promo ??
 def postAddClass(intitule, idPromo)
   uuid = SecureRandom.uuid
   ro = OpenConnectBdd.prepare('INSERT INTO classe (id_classe, intitule, id_promo) VALUES (?, ?, ?)')

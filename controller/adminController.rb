@@ -34,6 +34,12 @@ post '/api/addSubject' do
   postAddSubject(params[:intitule])
 end
 
+# ROUTE : {POST}/validateSubject
+# PARAM : STRING -> ID Subject
+post '/api/validateSubject' do
+  postValidateSubject(params[:idSubject])
+end
+
 #ROUTE : {POST}/deleteSubject
 # PARAM : STRING -> ID Subject
 post '/api/deleteSubject' do
