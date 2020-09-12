@@ -29,6 +29,33 @@ def isAdmin(token)
 end
 
 
+def connect(email)
+  request_object = OpenConnectBdd.prepare('SELECT * FROM `personne` WHERE personne.mail = ?')
+  request_object = request_object.execute(email)
+  hash = request_object.each(&:to_h)
+  if hash.length.zero?
+    {'password' => false}.to_json
+  else
+    hash[0].to_json
+  end
+end
+
+
+def createAccount(school,promo,firstname,lastname,email,password)
+  request_object = OpenConnectBdd.prepare('SELECT * FROM `personne` WHERE personne.mail = ?')
+  request_object = request_object.execute(email)
+  hash = request_object.each(&:to_h)
+  if hash.length.zero?
+    {'password' => false}.to_json
+  else
+    hash[0].to_json
+  end
+end
+
+
+
+
+
 #
 # def getForumQuestions
 #   request_object = OpenConnectBdd.query('SELECT q.titre,q.date,q.id_question, q.description,p.prenom,m.intitule,q.status,COUNT(v.id_vote) as \'votes\', (SELECT Count(comment.id_comment) FROM question_forum LEFT JOIN comment on comment.id_question=question_forum.id_question WHERE question_forum.id_question=q.id_question ) as \'comments\' FROM `question_forum` as q join personne as p on q.id_personne=p.id_personne join matiere as m on m.id_matiere=q.id_matiere LEFT join vote as v on v.id_question=q.id_question left JOIN `comment` as c on c.id_question=q.id_question GROUP BY q.id_question order by q.date DESC ')
