@@ -5,9 +5,30 @@ load 'requests/conf.rb'
 load 'requests/personne.rb'
 load 'requests/promo.rb'
 
+def getPeopleCourseById(idPeople)
+  request_object = OpenConnectBdd.prepare('SELECT * from personne_cours where id_personne=?;')
+  request_object = request_object.execute(idPeople)
+  hash = request_object.each(&:to_h)
+  if hash.length.zero?
+    'Personne inscrite sur aucun cours.'
+  else
+    hash.to_json
+  end
+end
+
+def postRegistrationCourse(idPeople, idCourse)
+  request_object = OpenConnectBdd.prepare('select * from personne_cours where id_personne=? and id_cours=?;')
+  request_object = request_object.execute(idPeople, idCourse)
+  hash = request_object.each(&:to_h)
+  print(hash)
+  if hash.length.zero?
+    request_object = OpenConnectBdd.prepare('INSERT INTO `personne_cours` (`id_personne`, `id_cours`, `rang_personne`) VALUES (?, ? , ? );')
+    request_object.execute(idPeople, idCourse,0)
+  end
+end
 
 def getUnclosedCourses
-  request_object = OpenConnectBdd.query('SELECT c.intitule AS intitule, c.heure AS heure, c.date AS date, c.salle AS salle, m.intitule AS matiere, po.promo AS promo, p.nom AS nom, p.prenom AS prenom FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND pc.rang_personne = 1')
+  request_object = OpenConnectBdd.query('SELECT c.id_cours AS idCours, c.commentaires AS commentaires,po.intitule AS promo, c.intitule AS intitule, c.date AS date, c.salle AS salle, m.intitule AS matiere, p.nom AS nom, p.prenom AS prenom FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND pc.rang_personne = 1 ORDER BY date ASC')
   hash = request_object.each(&:to_h)
   if hash.length.zero?
     'Pas de cours à venir.'
@@ -54,7 +75,7 @@ def getUnclosedCoursesByIntitule(intitule)
 end
 
 def getCourseOfTheDay
-  request_object = OpenConnectBdd.query('SELECT c.date, c.heure, p.nom, p.prenom, c.salle, m.intitule, p.role FROM cours c JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne JOIN matiere m ON m.id_matiere=c.id_matiere WHERE c.date = CAST(NOW() AS DATE) AND p.role=1')
+  request_object = OpenConnectBdd.query('SELECT c.date, p.nom, p.prenom, c.salle, m.intitule, p.role FROM cours c JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne JOIN matiere m ON m.id_matiere=c.id_matiere WHERE c.date = CAST(NOW() AS DATE) AND p.role=1')
   hash = request_object.each(&:to_h)
   if hash.length.zero?
     'Pas de cours aujourd hui.'

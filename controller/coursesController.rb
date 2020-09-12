@@ -3,6 +3,24 @@
 
 load 'requests/courses.rb'
 
+# ROUTE : {GET}/bot/peopleCourseById
+# RETURN : JSON of all courses for specific people
+get '/api/peopleCourseById' do
+  getPeopleCourseById(params[:idPeople])
+end
+
+# ROUTE : {POST}/api/registrationCourse
+# PARAM : STRING -> idPeople(id personne qui s'inscrit) ~/~ STRING -> idCourse(id du cours où la personne s'inscrit)
+# EXAMPLE : /bot/peopleCourse?lastname=Menanteau&firstname=Cédric
+post '/api/registrationCourse' do
+  postRegistrationCourse(params[:idPeople], params[:idCourse])
+end
+
+# ROUTE : {GET}/bot/unclosedCourses
+# RETURN : JSON of Tuteur, matière, unclosed courses
+get '/api/unclosedCourses' do
+  getUnclosedCourses
+end
 
 # ROUTE : {GET}/bot/unclosedCourses
 # RETURN : JSON of Tuteur, matière, unclosed courses
