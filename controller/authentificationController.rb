@@ -27,7 +27,6 @@ load 'requests/authentication.rb'
 # headers 'Access-Control-Allow-Origin' => 'http://tutorat-workshop'
 
 
-
 post '/api/isConnected' do
   isConnected(params[:token])
 end
@@ -44,8 +43,10 @@ end
 
 
 post '/api/createAccount' do
-  createAccount(params[:school],params[:promo],params[:firstname],params[:lastname],params[:email],params[:password])
+  createAccount(params[:school], params[:promo], params[:class], params[:firstname], params[:lastname], params[:email], params[:password])
 end
+
+
 
 
 

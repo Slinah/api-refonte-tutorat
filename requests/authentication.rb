@@ -41,19 +41,13 @@ def connect(email)
 end
 
 
-def createAccount(school,promo,firstname,lastname,email,password)
-  request_object = OpenConnectBdd.prepare('SELECT * FROM `personne` WHERE personne.mail = ?')
-  request_object = request_object.execute(email)
-  hash = request_object.each(&:to_h)
-  if hash.length.zero?
-    {'password' => false}.to_json
-  else
-    hash[0].to_json
-  end
+def createAccount(school, promo, classe, firstname, lastname, email, password)
+  uuid = SecureRandom.uuid
+  token = SecureRandom.uuid
+  request_object = OpenConnectBdd.prepare('INSERT INTO `personne` (`id_personne`, `id_classe`, `nom`, `prenom`,  `password`, `mail`, `token` ) VALUES (?, ?, ?, ?, ?, ?, ?)')
+  request_object.execute(uuid, classe, lastname, firstname, password, email, token)
+  connect(email)
 end
-
-
-
 
 
 #
