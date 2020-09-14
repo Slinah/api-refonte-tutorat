@@ -30,7 +30,6 @@ def postSendProposalCoursesPeople(idPeople, idMatiere, commentaire)
   end
 end
 
-# todo rajouter une fonction ici pour envoyé dans proposition_promo la proposition, si aucune proposition n'as déja été faite par rapport a la promo et la matière
 def postSendProposalCoursesPromo(idProposition, idPromo)
   request_object = OpenConnectBdd.prepare('SELECT * from proposition_promo where id_proposition=? and id_promo=?')
   request_object = request_object.execute(idProposition,idPromo)
