@@ -50,7 +50,7 @@ end
 
 
 def getComentaire(id_question)
-  request_object = OpenConnectBdd.prepare('SELECT comment.id_comment,comment.contenu,comment.dateCreation,personne.nom,personne.prenom, (SELECT COUNT(c.id_comment) from comment as c WHERE comment.id_comment=c.id_com) as \'sub\' FROM `comment` JOIN personne on personne.id_personne=comment.id_personne WHERE id_question=? order by comment.dateCreation DESC ')
+  request_object = OpenConnectBdd.prepare('SELECT comment.id_comment,comment.contenu,comment.dateCreation,personne.nom,personne.prenom, (SELECT COUNT(c.id_comment) from comment as c WHERE comment.id_comment=c.id_reply) as \'sub\' FROM `comment` JOIN personne on personne.id_personne=comment.id_personne WHERE id_question=? order by comment.dateCreation DESC ')
   request_object = request_object.execute(id_question)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
@@ -62,7 +62,7 @@ end
 
 
 def getComentaireReply(id_comment)
-  request_object = OpenConnectBdd.prepare('SELECT comment.id_comment,comment.contenu,comment.dateCreation,personne.nom,personne.prenom, (SELECT COUNT(c.id_comment) from comment as c WHERE comment.id_comment=c.id_com) as \'sub\' FROM `comment` JOIN personne on personne.id_personne=comment.id_personne WHERE id_com=? order by comment.dateCreation DESC ')
+  request_object = OpenConnectBdd.prepare('SELECT comment.id_comment,comment.contenu,comment.dateCreation,personne.nom,personne.prenom, (SELECT COUNT(c.id_comment) from comment as c WHERE comment.id_comment=c.id_reply) as \'sub\' FROM `comment` JOIN personne on personne.id_personne=comment.id_personne WHERE id_reply=? order by comment.dateCreation DESC ')
   request_object = request_object.execute(id_comment)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
@@ -95,7 +95,7 @@ end
 
 def replyComQuestion(id_personne, content, id_comment)
   uuid = SecureRandom.uuid
-  request_object = OpenConnectBdd.prepare('INSERT INTO `comment` (`id_comment`, `contenu`, `id_com`, `id_personne`) VALUES (?, ?, ?, ?);')
+  request_object = OpenConnectBdd.prepare('INSERT INTO `comment` (`id_comment`, `contenu`, `id_reply`, `id_personne`) VALUES (?, ?, ?, ?);')
   request_object.execute(uuid, content, id_comment, id_personne)
 end
 
