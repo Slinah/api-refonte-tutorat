@@ -9,3 +9,9 @@ load 'requests/promo.rb'
 get '/bot/getPromos' do
   getPromo
 end
+
+# ROUTE : {GET}/api/promoById
+# RETURN : JSON of informations about a promo
+get '/api/promos' do
+  getPromos
+end

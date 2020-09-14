@@ -9,11 +9,18 @@ get '/api/peopleCourseById' do
   getPeopleCourseById(params[:idPeople])
 end
 
+# Insertion dans personne cours du couple id_cours & id_personne, pour un élève , si il n'existe pas déjà
 # ROUTE : {POST}/api/registrationCourse
 # PARAM : STRING -> idPeople(id personne qui s'inscrit) ~/~ STRING -> idCourse(id du cours où la personne s'inscrit)
-# EXAMPLE : /bot/peopleCourse?lastname=Menanteau&firstname=Cédric
 post '/api/registrationCourse' do
   postRegistrationCourse(params[:idPeople], params[:idCourse])
+end
+
+# Insertion d'un nouveau cours si il n'existe pas déjà, et suppression des propositions associés au niveau et au cours
+# ROUTE : {POST}/api/postCourse
+# PARAM : String : id_personne (uuid) // String : id_matiere (uuid) // String : id_promo (uuid) // String : intitule // timestamp : date // String : commentaires
+post '/api/postCourse' do
+  postCourse(params[:id_personne], params[:id_matiere], params[:id_promo], params[:intitule], params[:date], params[:commentaires] )
 end
 
 # ROUTE : {GET}/bot/unclosedCourses

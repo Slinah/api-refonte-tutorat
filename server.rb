@@ -9,5 +9,6 @@ load 'controller/logsController.rb'
 load 'controller/proposalsController.rb'
 load 'controller/promoController.rb'
 load 'controller/personneController.rb'
+load 'controller/matiereController.rb'
 
 Sinatra::Application.environment == :development

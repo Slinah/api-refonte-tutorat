@@ -10,3 +10,9 @@ load 'requests/personne.rb'
 post '/api/personneByMail/:mail' do |mail|
     getPeopleByMail(mail)
 end
+
+# ROUTE : {GET}/api/personneById
+# RETURN : JSON of informations about a personne
+get '/api/personneById' do
+    getPersonneById(params[:idPeople])
+end
