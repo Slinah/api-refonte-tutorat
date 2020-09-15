@@ -32,8 +32,8 @@ def postCourse(id_personne,id_matiere,id_promo,intitule,date,commentaires)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
     uuid = SecureRandom.uuid
-    request_object = OpenConnectBdd.prepare('INSERT INTO `cours` (`id_cours`, `id_matiere`, `id_promo`, `intitule`,`date`,`commentaires`) VALUES (? , ? , ? , ? , ? , ?);')
-    request_object.execute(uuid, id_matiere,id_promo,intitule,date,commentaires)
+    request_object = OpenConnectBdd.prepare('INSERT INTO `cours` (`id_cours`, `id_matiere`, `id_promo`, `intitule`,`date`,`commentaires`, `status`, `stage`) VALUES (? , ? , ? , ? , ? , ? , ? , ?);')
+    request_object.execute(uuid, id_matiere,id_promo,intitule,date,commentaires,0,0)
     request_object = OpenConnectBdd.prepare('INSERT INTO `personne_cours` (`id_personne`, `id_cours`, `rang_personne`) VALUES (?, ? , ?);')
     request_object.execute(id_personne, uuid, 1)
     request_object = OpenConnectBdd.prepare('DELETE FROM proposition where id_proposition in (select * from (select p.id_proposition from proposition p LEFT join proposition_promo pro on p.id_proposition=pro.id_proposition JOIN personne pe on pe.id_personne=p.id_createur join classe c on c.id_classe=pe.id_classe join promo prom on prom.id_promo = c.id_promo where p.id_matiere=? and prom.id_promo=?)tableTemporaire);')
