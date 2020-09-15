@@ -5,6 +5,21 @@ load 'requests/conf.rb'
 load 'requests/personne.rb'
 load 'requests/promo.rb'
 
+def getPeopleTutorCourseById(idPeople)
+  request_object = OpenConnectBdd.prepare('SELECT pc.id_personne as id_personne,pr.intitule as promoIntitule,
+c.id_cours as id_cours, pc.rang_personne as rang_personne, m.id_matiere as id_matiere, pr.id_promo as id_promo, c.intitule as coursIntitule,
+c.date as date, c.commentaires as commentaires, c.nbParticipants as nbParticipants, c.duree as duree, c.status as status,
+c.salle as salle, m.intitule as matiereIntitule from personne_cours pc join cours c on c.id_cours=pc.id_cours join matiere m on m.id_matiere=c.id_matiere join promo pr
+on pr.id_promo=c.id_promo where pc.id_personne=? and pc.rang_personne=?;')
+  request_object = request_object.execute(idPeople,1)
+  hash = request_object.each(&:to_h)
+  if hash.length.zero?
+    'la Personne ne donne aucuns cours.'
+  else
+    hash.to_json
+  end
+end
+
 def getPeopleCourseById(idPeople)
   request_object = OpenConnectBdd.prepare('SELECT * from personne_cours where id_personne=?;')
   request_object = request_object.execute(idPeople)
@@ -32,8 +47,8 @@ def postCourse(id_personne,id_matiere,id_promo,intitule,date,commentaires)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
     uuid = SecureRandom.uuid
-    request_object = OpenConnectBdd.prepare('INSERT INTO `cours` (`id_cours`, `id_matiere`, `id_promo`, `intitule`,`date`,`commentaires`) VALUES (? , ? , ? , ? , ? , ?);')
-    request_object.execute(uuid, id_matiere,id_promo,intitule,date,commentaires)
+    request_object = OpenConnectBdd.prepare('INSERT INTO `cours` (`id_cours`, `id_matiere`, `id_promo`, `intitule`,`date`,`commentaires`, `status`) VALUES (? , ? , ? , ? , ? , ? , ? , ?);')
+    request_object.execute(uuid, id_matiere,id_promo,intitule,date,commentaires,0)
     request_object = OpenConnectBdd.prepare('INSERT INTO `personne_cours` (`id_personne`, `id_cours`, `rang_personne`) VALUES (?, ? , ?);')
     request_object.execute(id_personne, uuid, 1)
     request_object = OpenConnectBdd.prepare('DELETE FROM proposition where id_proposition in (select * from (select p.id_proposition from proposition p LEFT join proposition_promo pro on p.id_proposition=pro.id_proposition JOIN personne pe on pe.id_personne=p.id_createur join classe c on c.id_classe=pe.id_classe join promo prom on prom.id_promo = c.id_promo where p.id_matiere=? and prom.id_promo=?)tableTemporaire);')
@@ -41,9 +56,23 @@ def postCourse(id_personne,id_matiere,id_promo,intitule,date,commentaires)
   end
 end
 
+def postModifCourse(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,status,salle)
+  request_object = OpenConnectBdd.prepare('select * from cours where id_cours=?;')
+  request_object = request_object.execute(id_cours)
+  hash = request_object.each(&:to_h)
+  if hash.length.zero?
+    'le cours n\'existe pas'
+  else
+    request_object = OpenConnectBdd.prepare('INSERT INTO `cours` (`id_cours`,`id_matiere`,`id_promo`,`intitule`,`date`,`commentaires`,`nbParticipants`,`duree`,`status`,`salle`) VALUES (? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);')
+    request_object.execute(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,status,salle)
+  end
+end
 
 def getUnclosedCourses
-  request_object = OpenConnectBdd.query('SELECT c.id_cours AS idCours, c.commentaires AS commentaires,po.intitule AS promo, c.intitule AS intitule, c.date AS date, c.salle AS salle, m.intitule AS matiere, p.nom AS nom, p.prenom AS prenom FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND pc.rang_personne = 1 ORDER BY date ASC')
+  request_object = OpenConnectBdd.query('SELECT c.id_cours AS idCours, c.commentaires AS commentaires,po.intitule AS promo,
+c.intitule AS intitule, c.date AS date, c.salle AS salle, m.intitule AS matiere, p.nom AS nom, p.prenom AS prenom
+FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo
+JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND pc.rang_personne = 1 ORDER BY date ASC')
   hash = request_object.each(&:to_h)
   if hash.length.zero?
     'Pas de cours à venir.'
