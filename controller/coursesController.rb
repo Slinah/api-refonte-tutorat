@@ -72,3 +72,17 @@ end
 get '/bot/getCourseOfTheDay' do
   getCourseOfTheDay
 end
+
+# ROUTE : {POST}/api/getOwnCourses
+# PARAM : STRING -> ID personne
+# RETURN : JSON of courses for a specified person when he's tutor of them
+post '/api/getOwnCourses' do
+  getOwnCourses(params[:idPersonne])
+end
+
+# ROUTE : {POST}/api/getRegisteredCourses
+# PARAM : STRING -> ID personne
+# RETURN : JSON of courses for a specified person when he's registered on them
+post '/api/getRegisteredCourses' do
+  getRegisteredCourses(params[:idPersonne])
+end

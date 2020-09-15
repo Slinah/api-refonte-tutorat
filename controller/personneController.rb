@@ -11,8 +11,10 @@ post '/api/personneByMail/:mail' do |mail|
     getPeopleByMail(mail)
 end
 
-# ROUTE : {GET}/api/personneById
-# RETURN : JSON of informations about a personne
-get '/api/personneById' do
-    getPersonneById(params[:idPeople])
+
+# ROUTE : {POST}/api/personneById
+# PARAM : STRING -> ID personne
+# RETURN : JSON of information for the profile
+post '/api/personneById' do
+  getPeopleById(params[:idPersonne])
 end

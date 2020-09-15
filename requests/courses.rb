@@ -69,10 +69,14 @@ def postModifCourse(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_p
 end
 
 def getUnclosedCourses
-  request_object = OpenConnectBdd.query('SELECT c.id_cours AS idCours, c.commentaires AS commentaires,po.intitule AS promo,
-c.intitule AS intitule, c.date AS date, c.salle AS salle, m.intitule AS matiere, p.nom AS nom, p.prenom AS prenom
-FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo
-JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND pc.rang_personne = 1 ORDER BY date ASC')
+
+#   request_object = OpenConnectBdd.query('SELECT c.id_cours AS idCours, c.commentaires AS commentaires,po.intitule AS promo,
+# c.intitule AS intitule, c.date AS date, c.salle AS salle, m.intitule AS matiere, p.nom AS nom, p.prenom AS prenom
+# FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo
+# JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND pc.rang_personne = 1 ORDER BY date ASC')
+
+  request_object = OpenConnectBdd.query('SELECT c.id_cours AS idCours, c.commentaires AS commentaires,po.intitule AS promo, c.intitule AS intitule, c.date AS date, c.salle AS salle, m.intitule AS matiere, p.nom AS nom, p.prenom AS prenom FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND pc.rang_personne = 1 ORDER BY date ASC')
+
   hash = request_object.each(&:to_h)
   if hash.length.zero?
     'Pas de cours à venir.'
@@ -123,6 +127,28 @@ def getCourseOfTheDay
   hash = request_object.each(&:to_h)
   if hash.length.zero?
     'Pas de cours aujourd hui.'
+  else
+    hash.to_json
+  end
+end
+
+def getOwnCourses(idPersonne)
+  ro = OpenConnectBdd.prepare('SELECT c.intitule as intituleCours, c.id_promo as idPromo, c.date, c.commentaires, c.salle, pro.intitule as intitulePromo FROM cours c JOIN personne_cours pc ON pc.id_cours = c.id_cours JOIN personne p ON p.id_personne = pc.id_personne JOIN promo pro ON pro.id_promo = c.id_promo WHERE pc.rang_personne = 1 AND c.status = 0 AND p.id_personne = ?')
+  ro = ro.execute(idPersonne)
+  hash = ro.each(&:to_h)
+  if hash.length.zero?
+    'Vous n\'avez aucun cours à dispenser'
+  else
+    hash.to_json
+  end
+end
+
+def getRegisteredCourses(idPersonne)
+  ro = OpenConnectBdd.prepare('SELECT c.intitule as intituleCours, c.id_promo as idPromo, c.date, c.commentaires, c.salle, pro.intitule as intitulePromo FROM cours c JOIN personne_cours pc ON pc.id_cours = c.id_cours JOIN personne p ON p.id_personne = pc.id_personne JOIN promo pro ON pro.id_promo = c.id_promo WHERE pc.rang_personne = 0 AND c.status = 0 AND p.id_personne = ?')
+  ro = ro.execute(idPersonne)
+  hash = ro.each(&:to_h)
+  if hash.length.zero?
+    'Vous n\'êtes inscrit sur aucun cours'
   else
     hash.to_json
   end
