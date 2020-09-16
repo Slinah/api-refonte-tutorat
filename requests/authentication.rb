@@ -6,9 +6,10 @@ load 'requests/conf.rb'
 
 
 def isConnected(token)
-  request_object = OpenConnectBdd.prepare('SELECT count(*) as \'check\' FROM `personne` WHERE token=?')
+  request_object = OpenConnectBdd.prepare('SELECT personne.role as \'check\' FROM `personne` WHERE token=?')
   request_object = request_object.execute(token)
   hash = request_object.each(&:to_h)
+  print("Taille du tableau : " , hash.length )
   if hash.length.zero?
     {'check' => false}.to_json
   else
