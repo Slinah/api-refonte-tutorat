@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'sinatra'
+require 'mysql2'
 load 'controller/forumController.rb'
 load 'controller/adminController.rb'
 load 'controller/chartsController.rb'

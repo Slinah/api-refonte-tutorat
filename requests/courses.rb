@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'mysql2'
 load 'requests/conf.rb'
 load 'requests/personne.rb'
 load 'requests/promo.rb'
