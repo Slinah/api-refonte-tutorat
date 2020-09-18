@@ -56,7 +56,7 @@ def postCourse(id_personne,id_matiere,id_promo,intitule,date,commentaires)
   end
 end
 
-def postModifCourse(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,status,salle)
+def postCloseCourse(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,salle)
   request_object = OpenConnectBdd.prepare('select * from cours where id_cours=?;')
   request_object = request_object.execute(id_cours)
   hash = request_object.each(&:to_h)
@@ -64,7 +64,19 @@ def postModifCourse(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_p
     'le cours n\'existe pas'
   else
     request_object = OpenConnectBdd.prepare('INSERT INTO `cours` (`id_cours`,`id_matiere`,`id_promo`,`intitule`,`date`,`commentaires`,`nbParticipants`,`duree`,`status`,`salle`) VALUES (? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);')
-    request_object.execute(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,status,salle)
+    request_object.execute(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,1,salle)
+  end
+end
+
+def postModifCourse(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,salle)
+  request_object = OpenConnectBdd.prepare('select * from cours where id_cours=?;')
+  request_object = request_object.execute(id_cours)
+  hash = request_object.each(&:to_h)
+  if hash.length.zero?
+    'le cours n\'existe pas'
+  else
+    request_object = OpenConnectBdd.prepare('INSERT INTO `cours` (`id_cours`,`id_matiere`,`id_promo`,`intitule`,`date`,`commentaires`,`nbParticipants`,`duree`,`status`,`salle`) VALUES (? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);')
+    request_object.execute(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,0,salle)
   end
 end
 
