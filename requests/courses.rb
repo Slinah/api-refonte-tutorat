@@ -47,7 +47,7 @@ def postCourse(id_personne,id_matiere,id_promo,intitule,date,commentaires)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
     uuid = SecureRandom.uuid
-    request_object = OpenConnectBdd.prepare('INSERT INTO `cours` (`id_cours`, `id_matiere`, `id_promo`, `intitule`,`date`,`commentaires`, `status`) VALUES (? , ? , ? , ? , ? , ? , ? , ?);')
+    request_object = OpenConnectBdd.prepare('INSERT INTO `cours` (`id_cours`, `id_matiere`, `id_promo`, `intitule`,`date`,`commentaires`, `status`) VALUES (? , ? , ? , ? , ? , ? , ? );')
     request_object.execute(uuid, id_matiere,id_promo,intitule,date,commentaires,0)
     request_object = OpenConnectBdd.prepare('INSERT INTO `personne_cours` (`id_personne`, `id_cours`, `rang_personne`) VALUES (?, ? , ?);')
     request_object.execute(id_personne, uuid, 1)
@@ -63,8 +63,9 @@ def postCloseCourse(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_p
   if hash.length.zero?
     'le cours n\'existe pas'
   else
-    request_object = OpenConnectBdd.prepare('INSERT INTO `cours` (`id_cours`,`id_matiere`,`id_promo`,`intitule`,`date`,`commentaires`,`nbParticipants`,`duree`,`status`,`salle`) VALUES (? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);')
-    request_object.execute(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,1,salle)
+    request_object = OpenConnectBdd.prepare('update `cours` set `id_cours`=?,`id_matiere`=?,`id_promo`=?,`intitule`=?,`date`=?,
+`commentaires`=?,`nbParticipants`=?,`duree`=?,`status`=?,`salle`=? where id_cours=? ;')
+    request_object.execute(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,1,salle,id_cours)
   end
 end
 
@@ -75,8 +76,9 @@ def postModifCourse(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_p
   if hash.length.zero?
     'le cours n\'existe pas'
   else
-    request_object = OpenConnectBdd.prepare('INSERT INTO `cours` (`id_cours`,`id_matiere`,`id_promo`,`intitule`,`date`,`commentaires`,`nbParticipants`,`duree`,`status`,`salle`) VALUES (? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);')
-    request_object.execute(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,0,salle)
+    request_object = OpenConnectBdd.prepare('update `cours` set `id_cours`=?,`id_matiere`=?,`id_promo`=?,`intitule`=?,`date`=?,
+`commentaires`=?,`nbParticipants`=?,`duree`=?,`status`=?,`salle`=? where id_cours=? ;')
+    request_object.execute(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,0,salle,id_cours)
   end
 end
 

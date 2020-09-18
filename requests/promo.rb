@@ -21,7 +21,7 @@ def getPromo
 end
 
 def getPromos()
-  request_object = OpenConnectBdd.prepare('SELECT * FROM promo')
+  request_object = OpenConnectBdd.prepare('SELECT * FROM promo order by intitule ASC')
   request_object = request_object.execute()
   hash = request_object.each(&:to_h)
   if hash.length.zero?
