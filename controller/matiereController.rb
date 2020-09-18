@@ -8,3 +8,9 @@ load 'requests/matieres.rb'
 get '/api/matieres' do
   getMatieres
 end
+
+# ROUTE : {POST}/api/sendCreateMatiere
+# PARAM : STRING -> matiere
+post '/api/sendCreateMatiere' do
+  postSendCreateMatiere(params[:matiere])
+end

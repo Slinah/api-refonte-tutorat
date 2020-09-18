@@ -47,5 +47,4 @@ def getPeopleById(idPersonne)
   else
     hash.to_json
   end
-
 end

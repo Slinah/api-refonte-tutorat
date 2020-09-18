@@ -12,3 +12,18 @@ def getMatieres
     hash.to_json
   end
 end
+
+
+def postSendCreateMatiere(matiere)
+  uuid = SecureRandom.uuid
+  request_object = OpenConnectBdd.prepare('Select * from matiere where intitule=?')
+  request_object = request_object.execute(matiere)
+  hash = request_object.each(&:to_h)
+  if hash.length.zero?
+    request_object = OpenConnectBdd.prepare('INSERT INTO `matiere` (`id_matiere`,`intitule`,`validationAdmin`) VALUES (?, ?, ?);')
+    request_object.execute(uuid, matiere, 0)
+    uuid.to_json
+  else
+    'Il y a déjà une matière comportant cet intitulé dans la base de donnée'
+  end
+end
