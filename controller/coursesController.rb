@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 load 'requests/courses.rb'
 
-# ROUTE : {GET}/bot/peopleCourseById
+# ROUTE : {GET}/api/peopleCourseById
 # RETURN : JSON of all courses for specific people
 get '/api/peopleCourseById' do
   getPeopleCourseById(params[:idPeople])
 end
 
-# ROUTE : {GET}/bot/peopleCourseById
-# RETURN : JSON of all courses for specific people for tutor
+# ROUTE : {GET}/api/peopleCourseById
+# RETURN : JSON of all courses for specific people (tutor)
 get '/api/peopleTutorCourseById' do
   getPeopleTutorCourseById(params[:idPeople])
 end
@@ -31,14 +31,16 @@ end
 # ROUTE : {POST}/api/postModifCourse
 # PARAM : tous les paramètres correspondant aux cours
 post '/api/postModifCourse' do
-  postModifCourse(params[:id_cours],params[:id_matiere],params[:id_promo],params[:intitule],params[:date],params[:commentaires],params[:nbParticipants],params[:duree],params[:salle])
+  postModifCourse(params[:id_cours],params[:id_matiere],params[:id_promo],params[:intitule],params[:date],params[:commentaires],
+                  params[:nb_participants],params[:duree],params[:salle])
 end
 
 # modification complète du cours & cloture
 # ROUTE : {POST}/api/postCloseCourse
 # PARAM : tous les paramètres correspondant aux cours
 post '/api/postCloseCourse' do
-  postCloseCourse(params[:id_cours],params[:id_matiere],params[:id_promo],params[:intitule],params[:date],params[:commentaires],params[:nbParticipants],params[:duree],params[:salle])
+  postCloseCourse(params[:id_cours],params[:id_matiere],params[:id_promo],params[:intitule],params[:date],params[:commentaires],
+                  params[:nb_participants],params[:duree],params[:salle])
 end
 
 # ROUTE : {GET}/bot/unclosedCourses

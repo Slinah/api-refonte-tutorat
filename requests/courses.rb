@@ -10,8 +10,8 @@ def getPeopleTutorCourseById(idPeople)
 c.id_cours as id_cours, pc.rang_personne as rang_personne, m.id_matiere as id_matiere, pr.id_promo as id_promo, c.intitule as coursIntitule,
 c.date as date, c.commentaires as commentaires, c.nbParticipants as nbParticipants, c.duree as duree, c.status as status,
 c.salle as salle, m.intitule as matiereIntitule from personne_cours pc join cours c on c.id_cours=pc.id_cours join matiere m on m.id_matiere=c.id_matiere join promo pr
-on pr.id_promo=c.id_promo where pc.id_personne=? and pc.rang_personne=?;')
-  request_object = request_object.execute(idPeople,1)
+on pr.id_promo=c.id_promo where pc.id_personne=? and pc.rang_personne=? and c.status=? order by date asc;')
+  request_object = request_object.execute(idPeople,1,0)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
     'la Personne ne donne aucuns cours.'
@@ -42,7 +42,7 @@ def postRegistrationCourse(idPeople, idCourse)
 end
 
 def postCourse(id_personne,id_matiere,id_promo,intitule,date,commentaires)
-  request_object = OpenConnectBdd.prepare('select * from cours where id_matiere=? and id_promo=? and date=? and intitule=? and commentaires=?;')
+  request_object = OpenConnectBdd.prepare('select * from cours where id_matiere=? and id_promo=? and date=? and intitule=? and commentaires=? and status=0;')
   request_object = request_object.execute(id_matiere, id_promo,date,intitule,commentaires)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
@@ -57,8 +57,8 @@ def postCourse(id_personne,id_matiere,id_promo,intitule,date,commentaires)
 end
 
 def postCloseCourse(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,salle)
-  request_object = OpenConnectBdd.prepare('select * from cours where id_cours=?;')
-  request_object = request_object.execute(id_cours)
+  request_object = OpenConnectBdd.prepare('select * from cours where id_cours=? and status=?;')
+  request_object = request_object.execute(id_cours,0)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
     'le cours n\'existe pas'
@@ -70,8 +70,8 @@ def postCloseCourse(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_p
 end
 
 def postModifCourse(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_participants,duree,salle)
-  request_object = OpenConnectBdd.prepare('select * from cours where id_cours=?;')
-  request_object = request_object.execute(id_cours)
+  request_object = OpenConnectBdd.prepare('select * from cours where id_cours=? and status=?;')
+  request_object = request_object.execute(id_cours,0)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
     'le cours n\'existe pas'
@@ -83,14 +83,10 @@ def postModifCourse(id_cours,id_matiere,id_promo,intitule,date,commentaires,nb_p
 end
 
 def getUnclosedCourses
-
-#   request_object = OpenConnectBdd.query('SELECT c.id_cours AS idCours, c.commentaires AS commentaires,po.intitule AS promo,
-# c.intitule AS intitule, c.date AS date, c.salle AS salle, m.intitule AS matiere, p.nom AS nom, p.prenom AS prenom
-# FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo
-# JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND pc.rang_personne = 1 ORDER BY date ASC')
-
-  request_object = OpenConnectBdd.query('SELECT c.id_cours AS idCours, c.commentaires AS commentaires,po.intitule AS promo, c.intitule AS intitule, c.date AS date, c.salle AS salle, m.intitule AS matiere, p.nom AS nom, p.prenom AS prenom FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere JOIN promo po ON c.id_promo=po.id_promo JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne WHERE c.status = 0 AND pc.rang_personne = 1 ORDER BY date ASC')
-
+  request_object = OpenConnectBdd.query('SELECT c.id_cours AS idCours, c.commentaires AS commentaires,po.intitule AS promo, c.intitule AS intitule,
+c.date AS date, c.salle AS salle, m.intitule AS matiere, p.nom AS nom, p.prenom AS prenom FROM cours c JOIN matiere m ON c.id_matiere=m.id_matiere
+JOIN promo po ON c.id_promo=po.id_promo JOIN personne_cours pc ON c.id_cours=pc.id_cours JOIN personne p ON pc.id_personne=p.id_personne
+WHERE c.status = 0 AND pc.rang_personne = 1 ORDER BY date ASC')
   hash = request_object.each(&:to_h)
   if hash.length.zero?
     'Pas de cours à venir.'
