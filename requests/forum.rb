@@ -54,8 +54,9 @@ def getComentaire(id_question)
   request_object = request_object.execute(id_question)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
-    ' Impossible d \' acceder aux matieres '
+    {"error"=> "erreur"}
   else
+     # {"success"=> "Laction est success"}
     hash.to_json
   end
 end

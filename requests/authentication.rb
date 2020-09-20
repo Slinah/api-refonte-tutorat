@@ -42,6 +42,8 @@ def connect(email)
 end
 
 
+
+
 def createAccount(school, promo, classe, firstname, lastname, email, password)
   uuid = SecureRandom.uuid
   token = SecureRandom.uuid
@@ -49,6 +51,7 @@ def createAccount(school, promo, classe, firstname, lastname, email, password)
   request_object.execute(uuid, classe, lastname, firstname, password, email, token)
   connect(email)
 end
+
 
 
 #
