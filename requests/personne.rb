@@ -4,11 +4,14 @@ require 'mysql2'
 load 'requests/conf.rb'
 
 def getPersonneById(idPeople)
-  request_object = OpenConnectBdd.prepare('SELECT p.nom as nom, p.prenom as prenom, pro.intitule as intitulePromo, p.id_personne as id_createur, pro.id_promo as id_promo from personne p join classe c on p.id_classe=c.id_classe join promo pro on c.id_promo=pro.id_promo join ecole e on pro.id_ecole=e.id_ecole where id_personne=?;')
+  request_object = OpenConnectBdd.prepare('SELECT p.nom as nom, p.prenom as prenom, pro.intitule as intitulePromo,
+p.id_personne as id_createur, pro.id_promo as id_promo from personne p join classe c on p.id_classe=c.id_classe
+join promo pro on c.id_promo=pro.id_promo join ecole e on pro.id_ecole=e.id_ecole where id_personne=?;')
   request_object = request_object.execute(idPeople)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
-    'L\'id de cette personne n\'est pas présente dans notre base de donnée.'
+    result = {"error" => "L'id de cette personne n'est pas présente dans notre base de donnée !"}
+    result.to_json
   else
     hash.to_json
   end
@@ -28,6 +31,7 @@ def vExistsPersonneByMail(mail)
   # puts(request_object)
 end
 
+#fixme ???
 def getPeopleByMail(mail)
   unless [nil, 0].include?(vExistsPersonne(mail)[0])
     # request_object = OpenConnectBdd.prepare()
@@ -41,9 +45,9 @@ def getPeopleById(idPersonne)
   ro = ro.execute(idPersonne)
   hash = ro.each(&:to_h)
   if hash.length.zero?
-    'Impossible de récupérer les informations du profil'
+    result = {"error" => "Impossible de récupérer les informations du profil !"}
+    result.to_json
   else
     hash[0].to_json
   end
-
 end
