@@ -144,7 +144,7 @@ def getOwnCourses(idPersonne)
 end
 
 def getRegisteredCourses(idPersonne)
-  ro = OpenConnectBdd.prepare('SELECT c.intitule as intituleCours, c.id_promo as idPromo, c.date, c.commentaires, c.salle, pro.intitule as intitulePromo FROM cours c JOIN personne_cours pc ON pc.id_cours = c.id_cours JOIN personne p ON p.id_personne = pc.id_personne JOIN promo pro ON pro.id_promo = c.id_promo WHERE pc.rang_personne = 0 AND c.status = 0 AND p.id_personne = ?')
+  ro = OpenConnectBdd.prepare('SELECT pc.id_cours, c.intitule as intituleCours, c.id_promo as idPromo, c.date, c.commentaires, c.salle, pro.intitule as intitulePromo FROM cours c JOIN personne_cours pc ON pc.id_cours = c.id_cours JOIN personne p ON p.id_personne = pc.id_personne JOIN promo pro ON pro.id_promo = c.id_promo WHERE pc.rang_personne = 0 AND c.status = 0 AND p.id_personne = ?')
   ro = ro.execute(idPersonne)
   hash = ro.each(&:to_h)
   if hash.length.zero?
@@ -152,4 +152,9 @@ def getRegisteredCourses(idPersonne)
   else
     hash.to_json
   end
+end
+
+def postDeregisterFromCourse(idPersonne, idCours)
+  ro = OpenConnectBdd.prepare('DELETE FROM personne_cours WHERE id_personne = ? AND id_cours = ? AND rang_personne = 0')
+  ro.execute(idPersonne, idCours)
 end

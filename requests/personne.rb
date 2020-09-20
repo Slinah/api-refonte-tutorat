@@ -43,7 +43,7 @@ def getPeopleById(idPersonne)
   if hash.length.zero?
     'Impossible de récupérer les informations du profil'
   else
-    hash.to_json
+    hash[0].to_json
   end
 
 end
