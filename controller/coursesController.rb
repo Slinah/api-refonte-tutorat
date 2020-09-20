@@ -86,3 +86,10 @@ end
 post '/api/getRegisteredCourses' do
   getRegisteredCourses(params[:idPersonne])
 end
+
+# ROUTE : {POST}/api/postDeregisterFromCourse
+# PARAM 1 : STRING -> ID personne
+# PARAM 2 : STRING -> ID cours
+post '/api/postDeregisterFromCourse' do
+  postDeregisterFromCourse(params[:idPersonne], params[:idCours])
+end
