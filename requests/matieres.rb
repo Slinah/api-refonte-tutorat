@@ -29,6 +29,3 @@ def postSendCreateMatiere(matiere)
     result.to_json
   end
 end
-
-result = {"success" => "La réponse à bien été ajouté !"}
-result.to_json
