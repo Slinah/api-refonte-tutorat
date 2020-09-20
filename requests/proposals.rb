@@ -11,7 +11,8 @@ FROM proposition p JOIN matiere m ON p.id_matiere=m.id_matiere JOIN proposition_
 ON p.id_proposition=po.id_proposition JOIN promo pr ON po.id_promo=pr.id_promo')
   hash = request_object.each(&:to_h)
   if hash.length.zero?
-    'Pas de propositions pour le moment.'
+    result = {"error" => "Pas de propositions pour le moment !"}
+    result.to_json
   else
     hash.to_json
   end
@@ -40,7 +41,10 @@ def postSendProposalCoursesPromo(idProposition, idPromo)
   if hash.length.zero?
     request_object = OpenConnectBdd.prepare('INSERT INTO `proposition_promo` (`id_proposition`,`id_promo`) VALUES (?, ?);')
     request_object.execute(idProposition, idPromo)
+    result = {"success" => "La proposition pour la promo à bien été créer !"}
+    result.to_json
   else
-    'Ce couple proposition - promo est déjà présent dans la base donnée.'
+    result = {"error" => "Ce couple proposition - promo est déjà présent dans la base donnée !"}
+    result.to_json
   end
 end

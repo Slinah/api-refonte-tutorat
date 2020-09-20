@@ -10,7 +10,8 @@ join promo pro on c.id_promo=pro.id_promo join ecole e on pro.id_ecole=e.id_ecol
   request_object = request_object.execute(idPeople)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
-    'L\'id de cette personne n\'est pas présente dans notre base de donnée.'
+    result = {"error" => "L'id de cette personne n'est pas présente dans notre base de donnée !"}
+    result.to_json
   else
     hash.to_json
   end
@@ -30,6 +31,7 @@ def vExistsPersonneByMail(mail)
   # puts(request_object)
 end
 
+#fixme ???
 def getPeopleByMail(mail)
   unless [nil, 0].include?(vExistsPersonne(mail)[0])
     # request_object = OpenConnectBdd.prepare()
@@ -43,7 +45,8 @@ def getPeopleById(idPersonne)
   ro = ro.execute(idPersonne)
   hash = ro.each(&:to_h)
   if hash.length.zero?
-    'Impossible de récupérer les informations du profil'
+    result = {"error" => "Impossible de récupérer les informations du profil !"}
+    result.to_json
   else
     hash.to_json
   end

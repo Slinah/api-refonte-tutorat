@@ -91,8 +91,7 @@ def upvoteQuestion(id_personne, id_question)
     result = {"success" => "Le vote à bien été ajouté !"}
     result.to_json
   else
-    result = {"error" => "La personne à déjà voté pour cette question !"}
-    result.to_json
+
   end
 end
 
@@ -113,10 +112,6 @@ def replyComQuestion(id_personne, content, id_comment)
   result = {"success" => "La réponse à bien été ajouté !"}
   result.to_json
 end
-
-
-
-
 
 
 

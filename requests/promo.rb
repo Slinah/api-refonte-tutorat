@@ -14,7 +14,8 @@ def getPromo
   request_object = OpenConnectBdd.query('SELECT intitule FROM promo order by intitule ASC')
   hash = request_object.each(&:to_h)
   if hash.length.zero?
-    'Pas de promos dans la base de données.'
+    result = {"error" => "Pas de promos dans la base de données !"}
+    result.to_json
   else
     hash.to_json
   end
@@ -25,7 +26,8 @@ def getPromos()
   request_object = request_object.execute()
   hash = request_object.each(&:to_h)
   if hash.length.zero?
-    'Il n\'y a pas de promo dans la base de donné'
+    result = {"error" => "Il n'y a pas de promo dans la base de donnée !"}
+    result.to_json
   else
     hash.to_json
   end
