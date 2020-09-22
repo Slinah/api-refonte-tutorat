@@ -5,6 +5,56 @@ load 'requests/conf.rb'
 load 'requests/personne.rb'
 load 'requests/promo.rb'
 
+def postExperiencePeople(idPeople,experience,idCourse)
+  request_object = OpenConnectBdd.prepare('SELECT * from personne_preferences pp where pp.id_personne=?')
+  request_object = request_object.execute(idPeople)
+  hash = request_object.each(&:to_h)
+  if hash.length.zero?
+    request_object = OpenConnectBdd.prepare('SELECT * from personne where id_personne=?')
+    request_object = request_object.execute(idPeople)
+    hash2 = request_object.each(&:to_h)
+    if hash2.length.zero?
+      retourUser = {"error" => "l'utilisateur n'éxiste pas !"}
+      retourUser.to_json
+    else
+      #todo finir
+      request_object = OpenConnectBdd.prepare('INSERT INTO `personne_preferences` (`id_personne`,`experience`) VALUES (?, ?);')
+      request_object.execute(idPeople, experience)
+      request_object = OpenConnectBdd.prepare('DELETE FROM personne_cours where id_cours=? and id_personne=? ;')
+      request_object.execute(idCourse, idPeople)
+      retourUser = {"success" => "Les préfèrences ont étés crées et l'éxpérience bien attribuée !"}
+      retourUser.to_json
+    end
+  else
+    request_object = OpenConnectBdd.prepare('UPDATE personne_preferences pp
+INNER JOIN
+(
+   SELECT id_personne,SUM(experience + ?) sums
+   FROM personne_preferences
+   GROUP BY id_personne
+) p ON p.id_personne=pp.id_personne
+SET pp.experience = p.sums
+where pp.id_personne=?;')
+    request_object.execute(experience, idPeople)
+    request_object = OpenConnectBdd.prepare('DELETE FROM personne_cours where id_cours=? and id_personne=? ;')
+    request_object.execute(idCourse, idPeople)
+    hash.to_json
+  end
+end
+
+def getListPeopleCourseById(idCourse)
+  request_object = OpenConnectBdd.prepare('SELECT * from cours c join personne_cours pc on c.id_cours=pc.id_cours join
+personne pe on pe.id_personne=pc.id_personne where c.id_cours=?')
+  request_object = request_object.execute(idCourse)
+  hash = request_object.each(&:to_h)
+  if hash.length.zero?
+    retourUser = {"error" => "Il n'y a aucune inscription à ce cours !"}
+    retourUser.to_json
+  else
+    hash.to_json
+  end
+end
+
 def getPeopleTutorCourseById(idPeople)
   request_object = OpenConnectBdd.prepare('SELECT pc.id_personne as id_personne,pr.intitule as promoIntitule,
 c.id_cours as id_cours, pc.rang_personne as rang_personne, m.id_matiere as id_matiere, pr.id_promo as id_promo, c.intitule as coursIntitule,
@@ -176,7 +226,7 @@ def getOwnCourses(idPersonne)
 end
 
 def getRegisteredCourses(idPersonne)
-  ro = OpenConnectBdd.prepare('SELECT c.intitule as intituleCours, c.id_promo as idPromo, c.date, c.commentaires, c.salle, pro.intitule as intitulePromo FROM cours c JOIN personne_cours pc ON pc.id_cours = c.id_cours JOIN personne p ON p.id_personne = pc.id_personne JOIN promo pro ON pro.id_promo = c.id_promo WHERE pc.rang_personne = 0 AND c.status = 0 AND p.id_personne = ?')
+  ro = OpenConnectBdd.prepare('SELECT pc.id_cours, c.intitule as intituleCours, c.id_promo as idPromo, c.date, c.commentaires, c.salle, pro.intitule as intitulePromo FROM cours c JOIN personne_cours pc ON pc.id_cours = c.id_cours JOIN personne p ON p.id_personne = pc.id_personne JOIN promo pro ON pro.id_promo = c.id_promo WHERE pc.rang_personne = 0 AND c.status = 0 AND p.id_personne = ?')
   ro = ro.execute(idPersonne)
   hash = ro.each(&:to_h)
   if hash.length.zero?
@@ -185,4 +235,9 @@ def getRegisteredCourses(idPersonne)
   else
     hash.to_json
   end
+end
+
+def postDeregisterFromCourse(idPersonne, idCours)
+  ro = OpenConnectBdd.prepare('DELETE FROM personne_cours WHERE id_personne = ? AND id_cours = ? AND rang_personne = 0')
+  ro.execute(idPersonne, idCours)
 end

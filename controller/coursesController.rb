@@ -1,6 +1,20 @@
 # frozen_string_literal: true
 load 'requests/courses.rb'
 
+post '/api/experiencePeople' do
+  #fixme changer l'url pour la mise en prod
+  headers 'Access-Control-Allow-Origin' => 'http://workshop'
+  postExperiencePeople(params[:idPeople],params[:experience],params[:idCourse])
+end
+
+# ROUTE : {GET}/api/listPeopleCourseById
+# RETURN : JSON of people about a course
+post '/api/listPeopleCourseById' do
+  #fixme changer l'url pour la mise en prod
+  headers 'Access-Control-Allow-Origin' => 'http://workshop'
+  getListPeopleCourseById(params[:idCourse])
+end
+
 # ROUTE : {GET}/api/peopleCourseById
 # RETURN : JSON of all courses for specific people
 get '/api/peopleCourseById' do
@@ -89,4 +103,11 @@ end
 # RETURN : JSON of courses for a specified person when he's registered on them
 post '/api/getRegisteredCourses' do
   getRegisteredCourses(params[:idPersonne])
+end
+
+# ROUTE : {POST}/api/postDeregisterFromCourse
+# PARAM 1 : STRING -> ID personne
+# PARAM 2 : STRING -> ID cours
+post '/api/postDeregisterFromCourse' do
+  postDeregisterFromCourse(params[:idPersonne], params[:idCours])
 end

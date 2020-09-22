@@ -48,6 +48,6 @@ def getPeopleById(idPersonne)
     result = {"error" => "Impossible de récupérer les informations du profil !"}
     result.to_json
   else
-    hash.to_json
+    hash[0].to_json
   end
 end

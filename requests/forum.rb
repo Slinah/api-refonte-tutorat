@@ -61,6 +61,7 @@ def getComentaire(id_question)
     result = {"error" => "Impossible d' acceder aux commentaires !"}
     result.to_json
   else
+     # {"success"=> "Laction est success"}
     hash.to_json
   end
 end

@@ -15,7 +15,7 @@ end
 # PARAM : STRING -> ID personne
 # RETURN : JSON of information for the profile
 post '/api/personneById' do
-  getPeopleById(params[:idPeople])
+  getPeopleById(params[:idPersonne])
 end
 
 # ROUTE : {POST}/api/personneByIdFull
