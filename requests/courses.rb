@@ -6,7 +6,8 @@ load 'requests/personne.rb'
 load 'requests/promo.rb'
 
 def postExperiencePeople(idPeople,experience,idCourse)
-  request_object = OpenConnectBdd.prepare('SELECT * from personne_preferences pp where pp.id_personne=?')
+  request_object = OpenConnectBdd.prepare('SELECT * from cours c join personne_cours pc on c.id_cours=pc.id_cours join
+personne pe on pe.id_personne=pc.id_personne join personne_preferences pp on pp.id_personne=pe.id_personne where pe.id_personne=? and c.status=0')
   request_object = request_object.execute(idPeople)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
@@ -20,8 +21,6 @@ def postExperiencePeople(idPeople,experience,idCourse)
       #todo finir
       request_object = OpenConnectBdd.prepare('INSERT INTO `personne_preferences` (`id_personne`,`experience`) VALUES (?, ?);')
       request_object.execute(idPeople, experience)
-      request_object = OpenConnectBdd.prepare('DELETE FROM personne_cours where id_cours=? and id_personne=? ;')
-      request_object.execute(idCourse, idPeople)
       retourUser = {"success" => "Les préfèrences ont étés crées et l'éxpérience bien attribuée !"}
       retourUser.to_json
     end
@@ -35,8 +34,6 @@ INNER JOIN
 ) p ON p.id_personne=pp.id_personne
 SET pp.experience = p.sums
 where pp.id_personne=?;')
-    request_object.execute(experience, idPeople)
-    request_object = OpenConnectBdd.prepare('DELETE FROM personne_cours where id_cours=? and id_personne=? ;')
     request_object.execute(idCourse, idPeople)
     hash.to_json
   end
@@ -72,7 +69,7 @@ on pr.id_promo=c.id_promo where pc.id_personne=? and pc.rang_personne=? and c.st
 end
 
 def getPeopleCourseById(idPeople)
-  request_object = OpenConnectBdd.prepare('SELECT * from personne_cours where id_personne=?;')
+  request_object = OpenConnectBdd.prepare('SELECT * from personne_cours pc join cours c on c.id_cours=pc.id_cours where pc.id_personne=? and c.status=0 ;')
   request_object = request_object.execute(idPeople)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
@@ -84,7 +81,7 @@ def getPeopleCourseById(idPeople)
 end
 
 def postRegistrationCourse(idPeople, idCourse)
-  request_object = OpenConnectBdd.prepare('select * from personne_cours where id_personne=? and id_cours=?;')
+  request_object = OpenConnectBdd.prepare('SELECT * from personne_cours pc join cours c on c.id_cours=pc.id_cours where pc.id_personne=? and c.status=0 and pc.id_cours=?;')
   request_object = request_object.execute(idPeople, idCourse)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
