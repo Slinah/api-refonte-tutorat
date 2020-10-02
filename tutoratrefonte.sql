@@ -1083,7 +1083,7 @@ ALTER TABLE `classe`
 ALTER TABLE `comment`
   ADD CONSTRAINT `FK_9474526CF45F47C8` FOREIGN KEY (`id_question`) REFERENCES `question_forum` (`id_question`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_9474526CF6B8ABB9` FOREIGN KEY (`id_personne`) REFERENCES `personne` (`id_personne`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`id_reply`) REFERENCES `comment` (`id_comment`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_9474526CFA24FBB4` FOREIGN KEY (`id_reply`) REFERENCES `comment` (`id_comment`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `cours`
@@ -1152,7 +1152,7 @@ ALTER TABLE `proposition_promo`
 --
 ALTER TABLE `question_forum`
   ADD CONSTRAINT `FK_B5C0AFC9F6B8ABB9` FOREIGN KEY (`id_personne`) REFERENCES `personne` (`id_personne`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `question_forum_ibfk_1` FOREIGN KEY (`id_matiere`) REFERENCES `matiere` (`id_matiere`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_B5CG52F126ER48FG` FOREIGN KEY (`id_matiere`) REFERENCES `matiere` (`id_matiere`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `vote`
