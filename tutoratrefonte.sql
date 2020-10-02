@@ -505,7 +505,7 @@ CREATE TABLE IF NOT EXISTS `question_forum` (
   `date` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id_question`),
   KEY `IDX_B5C0AFC9F6B8ABB9` (`id_personne`),
-  KEY `id_matiere` (`id_matiere`)
+  KEY `FK_id_matiere` (`id_matiere`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -524,7 +524,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   PRIMARY KEY (`id_comment`),
   KEY `IDX_9474526CF45F47C8` (`id_question`),
   KEY `IDX_9474526CF6B8ABB9` (`id_personne`),
-  KEY `id_reply` (`id_reply`)
+  KEY `Fk_id_reply` (`id_reply`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
