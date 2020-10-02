@@ -28,6 +28,54 @@ SET time_zone = "+00:00";
 -- Structure de la table `archive`
 --
 
+--
+-- Structure de la table `matiere`
+--
+
+DROP TABLE IF EXISTS `matiere`;
+CREATE TABLE IF NOT EXISTS `matiere` (
+  `id_matiere` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `intitule` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `validationAdmin` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id_matiere`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `matiere`
+--
+
+INSERT INTO `matiere` (`id_matiere`, `intitule`, `validationAdmin`) VALUES
+('21B3918D-91B1-4531-90D1-461A6AACC388', 'HTML/CSS', 1),
+('393FDCEF-9C72-470D-A395-1053FF333F62', 'Linux', 1),
+('415B4DC5-399D-4502-84CB-A85719C1DDEC', 'Algo/C', 1),
+('50642180-2091-436F-86A0-3DBD9D9EE8FA', 'Oral/Soutenance', 1),
+('54D53570-1A5E-4498-B8DA-69FA88D84725', 'Participation', 1),
+('5A47A021-0810-46E4-B48A-627CAA3A2EE2', 'Communication', 1),
+('5C5C7594-13C8-436E-ABA9-9C0250B1829E', 'Git', 1),
+('670F6536-E887-4D6D-9F7E-FB5CC8E81F6D', 'PHP', 1),
+('6BD2949D-D314-4D9C-8D7A-1579C0FC6EA7', 'Anglais', 1),
+('6BF2F248-F663-4298-B013-9C734085838A', 'Javascript', 1),
+('803B665F-DC97-44D6-94F5-A6E9165542FC', 'API', 1),
+('85597B6A-2E9C-4567-A7C0-669E7AE8215C', 'Merise', 1),
+('9143639E-256D-489B-B41B-7A1F5ADB191C', 'UML', 1),
+('AD0FA378-CC0C-4250-87D4-D36C1F62EA14', 'WordPress', 1),
+('AE7B1943-3561-4194-9990-AD094E7C537D', 'Marketing/Emailing', 1),
+('B35E8D8C-9EC9-4421-847F-156DE0C3177C', 'ORACLE SQL', 1),
+('B634089F-7F04-48AF-A140-69C5AD6479DD', 'Python', 1),
+('B6D7A7FE-4ED8-4333-8D5D-4DC313296184', 'SEO', 1),
+('C0745973-1A24-445A-8F6E-73F49C2380DB', 'SQL', 1),
+('C1185012-7BEA-4E04-9949-F18229745256', 'Maths', 1),
+('C311E3B8-D033-47CA-BC2A-CD26A2B43382', 'Gestion de projet', 1),
+('CE47C0C9-1064-46F3-A340-0F88F34D3316', 'CV/Stage', 1),
+('D1607F71-9140-4E4D-B15B-FCC950966810', 'C#', 1),
+('D6D2AD87-8A5F-4E0A-9258-FBE4283B3819', 'Réseau', 1),
+('E01952AB-67A7-4933-95F0-453990EB9159', 'ORM C#', 1),
+('E432886C-77A6-4CC8-8C2B-2CA95DDCAA80', 'Bash', 1),
+('FA4E6CD6-87B2-42A3-A3F7-8BF484BBCDA6', 'Scripting', 1),
+('FCAE5FC7-D5D3-43E9-881D-80DA214B7FFC', 'Java', 1);
+
+-- --------------------------------------------------------
+
 DROP TABLE IF EXISTS `archive`;
 CREATE TABLE IF NOT EXISTS `archive` (
   `id_archive` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -113,6 +161,55 @@ INSERT INTO `archive` (`id_archive`, `id_matiere`, `date`, `commentaires`, `nbPa
 
 -- --------------------------------------------------------
 
+--
+-- Structure de la table `ecole`
+--
+
+DROP TABLE IF EXISTS `ecole`;
+CREATE TABLE IF NOT EXISTS `ecole` (
+  `id_ecole` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `intitule` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id_ecole`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `ecole`
+--
+
+INSERT INTO `ecole` (`id_ecole`, `intitule`) VALUES
+('6b816c57-9f4f-49e5-91bf-bbadaa85a1d4', 'IFAGE'),
+('820C2351-DD85-4EC8-9070-8535A7F2D432', 'WIS'),
+('D5BEFEB1-C72A-452B-ACEF-C79C26D2F6DF', 'EPSI');
+
+-- --------------------------------------------------------
+--
+-- Structure de la table `promo`
+--
+
+DROP TABLE IF EXISTS `promo`;
+CREATE TABLE IF NOT EXISTS `promo` (
+  `id_promo` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_ecole` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `intitule` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id_promo`),
+  KEY `Fk_Ecole` (`id_ecole`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `promo`
+--
+
+INSERT INTO `promo` (`id_promo`, `id_ecole`, `intitule`) VALUES
+('009B6DE0-4775-4BFA-BD90-D3A5C3F605B5', 'D5BEFEB1-C72A-452B-ACEF-C79C26D2F6DF', 'B2'),
+('5DC4FEC4-CDD0-4451-9594-86968D4CFDEA', '820C2351-DD85-4EC8-9070-8535A7F2D432', 'Wis1'),
+('7464AE15-7BF8-44FF-93AB-B4856D432626', '820C2351-DD85-4EC8-9070-8535A7F2D432', 'Wis3'),
+('83193C6F-BE87-4287-A575-86C3FC9F98FA', '820C2351-DD85-4EC8-9070-8535A7F2D432', 'Wis2'),
+('A7516064-F3FB-41BB-815C-A195DE9E92C9', 'D5BEFEB1-C72A-452B-ACEF-C79C26D2F6DF', 'B3'),
+('A7AC7F17-102E-458F-A8C9-398E8DE41895', 'D5BEFEB1-C72A-452B-ACEF-C79C26D2F6DF', 'I1'),
+('AA177EF6-0763-4C6A-89C2-E5B66EC50C2A', 'D5BEFEB1-C72A-452B-ACEF-C79C26D2F6DF', 'B1'),
+('CA367B50-DB05-457E-B293-D46F14EE54DD', 'D5BEFEB1-C72A-452B-ACEF-C79C26D2F6DF', 'I2');
+
+-- --------------------------------------------------------
 --
 -- Structure de la table `archive_promo`
 --
@@ -231,170 +328,6 @@ INSERT INTO `classe` (`id_classe`, `id_promo`, `intitule`) VALUES
 ('D8E8198E-91A5-4301-800B-2F89C7093910', '009B6DE0-4775-4BFA-BD90-D3A5C3F605B5', 'Classe 2'),
 ('EB56ECE5-3F99-4C08-BF71-1FC3FDCFBC03', '83193C6F-BE87-4287-A575-86C3FC9F98FA', 'Classe 1'),
 ('F105CF7D-9DCF-4B87-BE53-208EC695EBEB', 'A7AC7F17-102E-458F-A8C9-398E8DE41895', 'Classe 1 DEV');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `comment`
---
-
-DROP TABLE IF EXISTS `comment`;
-CREATE TABLE IF NOT EXISTS `comment` (
-  `id_comment` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contenu` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `dateCreation` timestamp NOT NULL DEFAULT current_timestamp(),
-  `id_question` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_personne` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_reply` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id_comment`),
-  KEY `IDX_9474526CF45F47C8` (`id_question`),
-  KEY `IDX_9474526CF6B8ABB9` (`id_personne`),
-  KEY `id_reply` (`id_reply`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `cours`
---
-
-DROP TABLE IF EXISTS `cours`;
-CREATE TABLE IF NOT EXISTS `cours` (
-  `id_cours` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_matiere` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_promo` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `intitule` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `commentaires` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nbParticipants` int(11) DEFAULT NULL,
-  `duree` int(11) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL,
-  `stage` tinyint(1) NOT NULL,
-  `salle` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id_cours`),
-  KEY `Fk_Matiere` (`id_matiere`),
-  KEY `fk_cours_promo1_idx` (`id_promo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `ecole`
---
-
-DROP TABLE IF EXISTS `ecole`;
-CREATE TABLE IF NOT EXISTS `ecole` (
-  `id_ecole` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `intitule` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id_ecole`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `ecole`
---
-
-INSERT INTO `ecole` (`id_ecole`, `intitule`) VALUES
-('6b816c57-9f4f-49e5-91bf-bbadaa85a1d4', 'IFAGE'),
-('820C2351-DD85-4EC8-9070-8535A7F2D432', 'WIS'),
-('D5BEFEB1-C72A-452B-ACEF-C79C26D2F6DF', 'EPSI');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `logs`
---
-
-DROP TABLE IF EXISTS `logs`;
-CREATE TABLE IF NOT EXISTS `logs` (
-  `id_log` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_cours` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `heure` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id_log`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `logs_proposition`
---
-
-DROP TABLE IF EXISTS `logs_proposition`;
-CREATE TABLE IF NOT EXISTS `logs_proposition` (
-  `id_log` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_proposition` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `heure` datetime DEFAULT NULL,
-  PRIMARY KEY (`id_log`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `matiere`
---
-
-DROP TABLE IF EXISTS `matiere`;
-CREATE TABLE IF NOT EXISTS `matiere` (
-  `id_matiere` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `intitule` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `validationAdmin` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id_matiere`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `matiere`
---
-
-INSERT INTO `matiere` (`id_matiere`, `intitule`, `validationAdmin`) VALUES
-('21B3918D-91B1-4531-90D1-461A6AACC388', 'HTML/CSS', 1),
-('393FDCEF-9C72-470D-A395-1053FF333F62', 'Linux', 1),
-('415B4DC5-399D-4502-84CB-A85719C1DDEC', 'Algo/C', 1),
-('50642180-2091-436F-86A0-3DBD9D9EE8FA', 'Oral/Soutenance', 1),
-('54D53570-1A5E-4498-B8DA-69FA88D84725', 'Participation', 1),
-('5A47A021-0810-46E4-B48A-627CAA3A2EE2', 'Communication', 1),
-('5C5C7594-13C8-436E-ABA9-9C0250B1829E', 'Git', 1),
-('670F6536-E887-4D6D-9F7E-FB5CC8E81F6D', 'PHP', 1),
-('6BD2949D-D314-4D9C-8D7A-1579C0FC6EA7', 'Anglais', 1),
-('6BF2F248-F663-4298-B013-9C734085838A', 'Javascript', 1),
-('803B665F-DC97-44D6-94F5-A6E9165542FC', 'API', 1),
-('85597B6A-2E9C-4567-A7C0-669E7AE8215C', 'Merise', 1),
-('9143639E-256D-489B-B41B-7A1F5ADB191C', 'UML', 1),
-('AD0FA378-CC0C-4250-87D4-D36C1F62EA14', 'WordPress', 1),
-('AE7B1943-3561-4194-9990-AD094E7C537D', 'Marketing/Emailing', 1),
-('B35E8D8C-9EC9-4421-847F-156DE0C3177C', 'ORACLE SQL', 1),
-('B634089F-7F04-48AF-A140-69C5AD6479DD', 'Python', 1),
-('B6D7A7FE-4ED8-4333-8D5D-4DC313296184', 'SEO', 1),
-('C0745973-1A24-445A-8F6E-73F49C2380DB', 'SQL', 1),
-('C1185012-7BEA-4E04-9949-F18229745256', 'Maths', 1),
-('C311E3B8-D033-47CA-BC2A-CD26A2B43382', 'Gestion de projet', 1),
-('CE47C0C9-1064-46F3-A340-0F88F34D3316', 'CV/Stage', 1),
-('D1607F71-9140-4E4D-B15B-FCC950966810', 'C#', 1),
-('D6D2AD87-8A5F-4E0A-9258-FBE4283B3819', 'Réseau', 1),
-('E01952AB-67A7-4933-95F0-453990EB9159', 'ORM C#', 1),
-('E432886C-77A6-4CC8-8C2B-2CA95DDCAA80', 'Bash', 1),
-('FA4E6CD6-87B2-42A3-A3F7-8BF484BBCDA6', 'Scripting', 1),
-('FCAE5FC7-D5D3-43E9-881D-80DA214B7FFC', 'Java', 1);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `niveau`
---
-
-DROP TABLE IF EXISTS `niveau`;
-CREATE TABLE IF NOT EXISTS `niveau` (
-  `id_niveau` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `intitule` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id_niveau`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `niveau`
---
-
-INSERT INTO `niveau` (`id_niveau`, `intitule`) VALUES
-('2d1804ae-94b0-4f45-8670-ae4bbc258507', 'Besoin d\'aide'),
-('2dd15861-c47e-4c32-a322-2f137dfc5dad', 'A l\'aise'),
-('d0d6e789-1a50-470f-9e54-4f54a2160cb8', 'Expert');
 
 -- --------------------------------------------------------
 
@@ -554,6 +487,120 @@ INSERT INTO `personne` (`id_personne`, `id_classe`, `nom`, `prenom`, `role`, `pa
 ('F9EEF704-351B-4B11-B0CF-E5880D1C991B', '6F0B14AD-2843-4175-AEFA-3B4133B415CB', 'VENDÉ', 'Mathys', 0, '$2y$10$uH9SA7u2YMp1hd9CkvFEwutbpoUNcOxXIoY0ZmxlLGoYPBdW0rhcW', 'mathys.vende44@gmail.com', NULL, NULL, NULL),
 ('FCA2D4A2-F5CF-4D0C-AF2A-DCE284796DA0', 'F105CF7D-9DCF-4B87-BE53-208EC695EBEB', 'LOSSEC', 'Pascal', 0, '$2y$10$B9aUO.xsuDLWRX9WWfrrLOB3BXB4mq6py/89YdZ6ZtmvtNtyvf4da', 'pascal.lossec@epsi.fr', NULL, NULL, NULL),
 ('FD6A6CA2-E82B-4347-BFEB-9D1B4AE68AF1', '5FEA68B5-8A56-4B18-80CB-D8DA0920DD12', 'BURGAUDEAU', 'Antoine', 0, '$2y$10$qteEgL8Cyfr1Tpwsnt.LZOrvVmQfPc35tv2QnYQE.HdWVpDRKZVoS', 'antoine.burgaudeau@epsi.fr', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `question_forum`
+--
+
+DROP TABLE IF EXISTS `question_forum`;
+CREATE TABLE IF NOT EXISTS `question_forum` (
+  `id_question` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id_personne` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_matiere` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id_question`),
+  KEY `IDX_B5C0AFC9F6B8ABB9` (`id_personne`),
+  KEY `id_matiere` (`id_matiere`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+--
+-- Structure de la table `comment`
+--
+
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE IF NOT EXISTS `comment` (
+  `id_comment` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contenu` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dateCreation` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id_question` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id_personne` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_reply` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id_comment`),
+  KEY `IDX_9474526CF45F47C8` (`id_question`),
+  KEY `IDX_9474526CF6B8ABB9` (`id_personne`),
+  KEY `id_reply` (`id_reply`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `cours`
+--
+
+DROP TABLE IF EXISTS `cours`;
+CREATE TABLE IF NOT EXISTS `cours` (
+  `id_cours` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_matiere` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id_promo` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `intitule` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `commentaires` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nbParticipants` int(11) DEFAULT NULL,
+  `duree` int(11) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `stage` tinyint(1) NOT NULL,
+  `salle` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id_cours`),
+  KEY `Fk_Matiere` (`id_matiere`),
+  KEY `fk_cours_promo1_idx` (`id_promo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+
+--
+-- Structure de la table `logs`
+--
+
+DROP TABLE IF EXISTS `logs`;
+CREATE TABLE IF NOT EXISTS `logs` (
+  `id_log` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_cours` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `heure` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id_log`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `logs_proposition`
+--
+
+DROP TABLE IF EXISTS `logs_proposition`;
+CREATE TABLE IF NOT EXISTS `logs_proposition` (
+  `id_log` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_proposition` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `heure` datetime DEFAULT NULL,
+  PRIMARY KEY (`id_log`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `niveau`
+--
+
+DROP TABLE IF EXISTS `niveau`;
+CREATE TABLE IF NOT EXISTS `niveau` (
+  `id_niveau` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `intitule` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id_niveau`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `niveau`
+--
+
+INSERT INTO `niveau` (`id_niveau`, `intitule`) VALUES
+('2d1804ae-94b0-4f45-8670-ae4bbc258507', 'Besoin d\'aide'),
+('2dd15861-c47e-4c32-a322-2f137dfc5dad', 'A l\'aise'),
+('d0d6e789-1a50-470f-9e54-4f54a2160cb8', 'Expert');
 
 -- --------------------------------------------------------
 
@@ -947,34 +994,6 @@ CREATE TABLE IF NOT EXISTS `personne_tag` (
 
 -- --------------------------------------------------------
 
---
--- Structure de la table `promo`
---
-
-DROP TABLE IF EXISTS `promo`;
-CREATE TABLE IF NOT EXISTS `promo` (
-  `id_promo` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_ecole` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `intitule` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id_promo`),
-  KEY `Fk_Ecole` (`id_ecole`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `promo`
---
-
-INSERT INTO `promo` (`id_promo`, `id_ecole`, `intitule`) VALUES
-('009B6DE0-4775-4BFA-BD90-D3A5C3F605B5', 'D5BEFEB1-C72A-452B-ACEF-C79C26D2F6DF', 'B2'),
-('5DC4FEC4-CDD0-4451-9594-86968D4CFDEA', '820C2351-DD85-4EC8-9070-8535A7F2D432', 'Wis1'),
-('7464AE15-7BF8-44FF-93AB-B4856D432626', '820C2351-DD85-4EC8-9070-8535A7F2D432', 'Wis3'),
-('83193C6F-BE87-4287-A575-86C3FC9F98FA', '820C2351-DD85-4EC8-9070-8535A7F2D432', 'Wis2'),
-('A7516064-F3FB-41BB-815C-A195DE9E92C9', 'D5BEFEB1-C72A-452B-ACEF-C79C26D2F6DF', 'B3'),
-('A7AC7F17-102E-458F-A8C9-398E8DE41895', 'D5BEFEB1-C72A-452B-ACEF-C79C26D2F6DF', 'I1'),
-('AA177EF6-0763-4C6A-89C2-E5B66EC50C2A', 'D5BEFEB1-C72A-452B-ACEF-C79C26D2F6DF', 'B1'),
-('CA367B50-DB05-457E-B293-D46F14EE54DD', 'D5BEFEB1-C72A-452B-ACEF-C79C26D2F6DF', 'I2');
-
--- --------------------------------------------------------
 
 --
 -- Structure de la table `proposition`
@@ -1020,25 +1039,6 @@ INSERT INTO `proposition_promo` (`id_proposition`, `id_promo`) VALUES
 
 -- --------------------------------------------------------
 
---
--- Structure de la table `question_forum`
---
-
-DROP TABLE IF EXISTS `question_forum`;
-CREATE TABLE IF NOT EXISTS `question_forum` (
-  `id_question` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_personne` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_matiere` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 0,
-  `date` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id_question`),
-  KEY `IDX_B5C0AFC9F6B8ABB9` (`id_personne`),
-  KEY `id_matiere` (`id_matiere`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
 
 --
 -- Structure de la table `vote`
