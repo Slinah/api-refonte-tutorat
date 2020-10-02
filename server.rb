@@ -19,5 +19,5 @@ load 'controller/archiveController.rb'
 
 Sinatra::Application.environment == :development
 
-
+puts "Started"
 
