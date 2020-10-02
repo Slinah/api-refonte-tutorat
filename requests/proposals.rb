@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-load 'requests/conf.rb'
+# load 'requests/conf.rb'
 
 
 def getUnclosedProposals

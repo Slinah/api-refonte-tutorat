@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'securerandom'
-load 'requests/conf.rb'
+# load 'requests/conf.rb'
 
 def generateArchive
     uuid = -> { return SecureRandom.uuid.upcase }

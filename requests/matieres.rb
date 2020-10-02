@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-load 'requests/conf.rb'
+ # load 'requests/conf.rb'
 
 def getMatieres
   request_object = OpenConnectBdd.query('SELECT id_matiere as id_matiere, intitule as intitule from matiere where validationAdmin=1 ORDER BY intitule ASC')

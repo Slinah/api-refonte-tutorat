@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-load 'requests/conf.rb'
+# load 'requests/conf.rb'
 
 def getLatestCourseByLogs
   request_object = OpenConnectBdd.query('SELECT l.id_cours as logIdCours, l.id_cours, l.heure as logDateHeure, m.intitule as nomMatiere, c.intitule as nomCours, p.intitule as nomPromo FROM logs l JOIN cours c on c.id_cours=l.id_cours JOIN matiere m on c.id_matiere=m.id_matiere JOIN promo p on c.id_promo=p.id_promo ORDER BY l.heure ASC LIMIT 1')

@@ -2,6 +2,7 @@
 
 require 'sinatra'
 require 'mysql2'
+load 'requests/conf.rb'
 load 'controller/forumController.rb'
 load 'controller/adminController.rb'
 load 'controller/chartsController.rb'
