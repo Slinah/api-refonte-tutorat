@@ -1,16 +1,28 @@
 # frozen_string_literal: true
-
-
 load 'requests/courses.rb'
 
-# ROUTE : {GET}/bot/peopleCourseById
+post '/api/experiencePeople' do
+  #fixme changer l'url pour la mise en prod
+  headers 'Access-Control-Allow-Origin' => 'http://workshop'
+  postExperiencePeople(params[:idPeople],params[:experience],params[:idCourse])
+end
+
+# ROUTE : {GET}/api/listPeopleCourseById
+# RETURN : JSON of people about a course
+post '/api/listPeopleCourseById' do
+  #fixme changer l'url pour la mise en prod
+  headers 'Access-Control-Allow-Origin' => 'http://workshop'
+  getListPeopleCourseById(params[:idCourse])
+end
+
+# ROUTE : {GET}/api/peopleCourseById
 # RETURN : JSON of all courses for specific people
 get '/api/peopleCourseById' do
   getPeopleCourseById(params[:idPeople])
 end
 
-# ROUTE : {GET}/bot/peopleCourseById
-# RETURN : JSON of all courses for specific people for tutor
+# ROUTE : {GET}/api/peopleCourseById
+# RETURN : JSON of all courses for specific people (tutor)
 get '/api/peopleTutorCourseById' do
   getPeopleTutorCourseById(params[:idPeople])
 end
@@ -29,12 +41,20 @@ post '/api/postCourse' do
   postCourse(params[:id_personne], params[:id_matiere], params[:id_promo], params[:intitule], params[:date], params[:commentaires] )
 end
 
-
 # modification complète du cours
 # ROUTE : {POST}/api/postModifCourse
 # PARAM : tous les paramètres correspondant aux cours
 post '/api/postModifCourse' do
-  postModifCourse(params[:id_cours],params[:id_matiere],params[:id_promo],params[:intitule],params[:date],params[:commentaires],params[:nbParticipants],params[:duree],params[:status],params[:salle])
+  postModifCourse(params[:id_cours],params[:id_matiere],params[:id_promo],params[:intitule],params[:date],params[:commentaires],
+                  params[:nb_participants],params[:duree],params[:salle])
+end
+
+# modification complète du cours & cloture
+# ROUTE : {POST}/api/postCloseCourse
+# PARAM : tous les paramètres correspondant aux cours
+post '/api/postCloseCourse' do
+  postCloseCourse(params[:id_cours],params[:id_matiere],params[:id_promo],params[:intitule],params[:date],params[:commentaires],
+                  params[:nb_participants],params[:duree],params[:salle])
 end
 
 # ROUTE : {GET}/bot/unclosedCourses
@@ -49,7 +69,6 @@ get '/bot/unclosedCourses' do
   getUnclosedCourses
 end
 
-
 # ROUTE : {POST}/bot/peopleCourse
 # PARAM : STRING -> lastname(nom) ~/~ STRING -> firstname(prénom)
 # RETURN : JSON of courses for a specified people
@@ -57,7 +76,6 @@ end
 post '/bot/peopleCourse' do
   getCoursesOfASpecificUser(params[:lastname], params[:firstname])
 end
-
 
 # ROUTE : {POST}/bot/unclosedCoursesPromo
 # PARAM : STRING -> name_promo(intitule promo)
@@ -85,4 +103,11 @@ end
 # RETURN : JSON of courses for a specified person when he's registered on them
 post '/api/getRegisteredCourses' do
   getRegisteredCourses(params[:idPersonne])
+end
+
+# ROUTE : {POST}/api/postDeregisterFromCourse
+# PARAM 1 : STRING -> ID personne
+# PARAM 2 : STRING -> ID cours
+post '/api/postDeregisterFromCourse' do
+  postDeregisterFromCourse(params[:idPersonne], params[:idCours])
 end
