@@ -5,6 +5,19 @@ load 'requests/conf.rb'
 load 'requests/personne.rb'
 load 'requests/promo.rb'
 
+def getListPeopleCourseById(idCourse)
+  request_object = OpenConnectBdd.prepare('SELECT * from cours c join personne_cours pc on c.id_cours=pc.id_cours join
+personne pe on pe.id_personne=pc.id_personne where c.id_cours=?')
+  request_object = request_object.execute(idCourse)
+  hash = request_object.each(&:to_h)
+  if hash.length.zero?
+    retourUser = {"error" => "Il n'y a aucune inscription à ce cours !"}
+    retourUser.to_json
+  else
+    hash.to_json
+  end
+end
+
 def getPeopleTutorCourseById(idPeople)
   request_object = OpenConnectBdd.prepare('SELECT pc.id_personne as id_personne,pr.intitule as promoIntitule,
 c.id_cours as id_cours, pc.rang_personne as rang_personne, m.id_matiere as id_matiere, pr.id_promo as id_promo, c.intitule as coursIntitule,
