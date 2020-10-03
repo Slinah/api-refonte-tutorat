@@ -41,7 +41,9 @@ def getPeopleByMail(mail)
 end
 
 def getPeopleById(idPersonne)
-  ro = OpenConnectBdd.prepare('SELECT p.nom, p.prenom, p.role, p.mail, p.image, cl.intitule as intituleClasse, pro.intitule as intitulePromo FROM personne p JOIN classe cl ON p.id_classe=cl.id_classe JOIN promo pro ON cl.id_promo = pro.id_promo WHERE p.id_personne = ?')
+  ro = OpenConnectBdd.prepare('SELECT ppref.experience as experience, p.nom, p.prenom, p.role, p.mail, p.image, cl.intitule as intituleClasse,
+pro.intitule as intitulePromo FROM personne p JOIN classe cl ON p.id_classe=cl.id_classe
+JOIN promo pro ON cl.id_promo = pro.id_promo join personne_preferences ppref on p.id_personne=ppref.id_personne WHERE p.id_personne = ?')
   ro = ro.execute(idPersonne)
   hash = ro.each(&:to_h)
   if hash.length.zero?

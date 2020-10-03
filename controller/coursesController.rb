@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 load 'requests/courses.rb'
 
+post '/api/experiencePeople' do
+  #fixme changer l'url pour la mise en prod
+  headers 'Access-Control-Allow-Origin' => 'http://workshop'
+  postExperiencePeople(params[:idPeople],params[:experience],params[:idCourse])
+end
+
 # ROUTE : {GET}/api/listPeopleCourseById
 # RETURN : JSON of people about a course
 post '/api/listPeopleCourseById' do
