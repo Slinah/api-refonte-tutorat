@@ -23,7 +23,7 @@ end
 
 # ROUTE : {GET}/api/peopleCourseById
 # RETURN : JSON of all courses for specific people (tutor)
-get '/api/peopleTutorCourseById' do
+post '/api/peopleTutorCourseById' do
   getPeopleTutorCourseById(params[:idPeople])
 end
 

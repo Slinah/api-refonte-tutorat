@@ -4,7 +4,7 @@
 load 'requests/personne.rb'
 load 'requests/promo.rb'
 
-def postExperiencePeople(idPeople,experience,idCourse)
+def postExperiencePeople(idPeople, experience, idCourse)
   request_object = OpenConnectBdd.prepare('SELECT * from cours c join personne_cours pc on c.id_cours=pc.id_cours join
 personne pe on pe.id_personne=pc.id_personne join personne_preferences pp on pp.id_personne=pe.id_personne where pe.id_personne=? and c.status=0')
   request_object = request_object.execute(idPeople)
@@ -59,6 +59,7 @@ c.salle as salle, m.intitule as matiereIntitule from personne_cours pc join cour
 on pr.id_promo=c.id_promo where pc.id_personne=? and pc.rang_personne=? and c.status=? order by date asc;')
   request_object = request_object.execute(idPeople, 1, 0)
   hash = request_object.each(&:to_h)
+  puts request_object
   if hash.length.zero?
     retourUser = {"error" => "La personne ne donne aucuns cours !"}
     retourUser.to_json

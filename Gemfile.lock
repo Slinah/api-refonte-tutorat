@@ -12,6 +12,7 @@ GEM
     rack-protection (2.1.0)
       rack
     ruby2_keywords (0.0.2)
+    securerandom (0.1.0)
     sinatra (2.1.0)
       mustermann (~> 1.0)
       rack (~> 2.2)
@@ -27,6 +28,7 @@ DEPENDENCIES
   cuba
   json
   mysql2 (~> 0.5.2)
+  securerandom
   sinatra
 
 BUNDLED WITH
