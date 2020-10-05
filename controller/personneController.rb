@@ -24,3 +24,17 @@ end
 post '/api/personneByIdFull' do
   getPersonneById(params[:idPeople])
 end
+
+# ROUTE : {POST}/api/postModifPref
+# PARAM : STRING -> ID personne , int -> value of idCursor
+# RETURN : Return to User Experience
+post '/api/postModifPref' do
+  postPreferenceById(params[:idPersonne],params[:idCursor])
+end
+
+# ROUTE : {POST}/api/getPreferenceById
+# PARAM : STRING -> ID personne
+# RETURN : Return preferences data
+post '/api/getPreferenceById' do
+  getPreferenceById(params[:idPersonne])
+end
