@@ -17,7 +17,6 @@ personne pe on pe.id_personne=pc.id_personne join personne_preferences pp on pp.
       retourUser = {"error" => "l'utilisateur n'éxiste pas !"}
       retourUser.to_json
     else
-      #todo finir
       request_object = OpenConnectBdd.prepare('INSERT INTO `personne_preferences` (`id_personne`,`experience`) VALUES (?, ?);')
       request_object.execute(idPeople, experience)
       retourUser = {"success" => "Les préfèrences ont étés crées et l'éxpérience bien attribuée !"}
