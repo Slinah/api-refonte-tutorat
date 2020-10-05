@@ -40,7 +40,7 @@ end
 
 # RETURN : JSON of Tuteur, matière, unclosed courses
 get '/api/getCommentaireReply/:id_comment' do |id_comment|
-  headers 'Access-Control-Allow-Origin' => 'http://localhost:4567'
+  headers 'Access-Control-Allow-Origin' => 'https://scratchoverflow.fr'
   getComentaireReply(id_comment)
 end
 

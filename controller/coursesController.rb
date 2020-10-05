@@ -2,14 +2,14 @@
 load 'requests/courses.rb'
 
 post '/api/experiencePeople' do
-  headers 'Access-Control-Allow-Origin' => 'http://localhost:4567'
+  headers 'Access-Control-Allow-Origin' => 'https://scratchoverflow.fr'
   postExperiencePeople(params[:idPeople],params[:experience],params[:idCourse])
 end
 
 # ROUTE : {GET}/api/listPeopleCourseById
 # RETURN : JSON of people about a course
 post '/api/listPeopleCourseById' do
-  headers 'Access-Control-Allow-Origin' => 'http://localhost:4567'
+  headers 'Access-Control-Allow-Origin' => 'https://scratchoverflow.fr'
   getListPeopleCourseById(params[:idCourse])
 end
 
