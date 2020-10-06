@@ -48,6 +48,7 @@ personne pe on pe.id_personne=pc.id_personne where c.id_cours=?')
   end
 end
 
+
 def getPeopleTutorCourseById(idPeople)
   request_object = OpenConnectBdd.prepare('SELECT pc.id_personne as id_personne,pr.intitule as promoIntitule,
 c.id_cours as id_cours, pc.rang_personne as rang_personne, m.id_matiere as id_matiere, pr.id_promo as id_promo, c.intitule as coursIntitule,
