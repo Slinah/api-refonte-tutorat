@@ -6,7 +6,7 @@ load 'requests/promo.rb'
 
 def postExperiencePeople(idPeople, experience, idCourse)
   request_object = OpenConnectBdd.prepare('SELECT * from cours c join personne_cours pc on c.id_cours=pc.id_cours join
-personne pe on pe.id_personne=pc.id_personne join personne_preferences pp on pp.id_personne=pe.id_personne where pe.id_personne=? and pp.id_cours and c.status=0')
+personne pe on pe.id_personne=pc.id_personne join personne_preferences pp on pp.id_personne=pe.id_personne where pe.id_personne=? and c.id_cours=? and c.status=0')
   request_object = request_object.execute(idPeople,idCourse)
   hash = request_object.each(&:to_h)
   if hash.length.zero?
