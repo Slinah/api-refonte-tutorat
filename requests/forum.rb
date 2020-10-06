@@ -16,7 +16,7 @@ end
 
 
 def getQuestion(id_question)
-  request_object = OpenConnectBdd.prepare('SELECT q.titre,q.date,q.id_question, q.description,p.prenom,m.intitule,
+  request_object = OpenConnectBdd.prepare('SELECT q.titre,q.date,q.id_question, q.description,p.prenom,m.intitule,q.id_personne, q.id_matiere,
 q.status,COUNT(v.id_vote) as \'votes\',(SELECT Count(comment.id_comment) FROM question_forum LEFT JOIN comment on comment.id_question=question_forum.id_question
  WHERE question_forum.id_question=q.id_question ) as \'comments\' FROM `question_forum` as q join personne as p on q.id_personne=p.id_personne
  join matiere as m on m.id_matiere=q.id_matiere LEFT join vote as v on v.id_question=q.id_question left JOIN `comment` as c on c.id_question=q.id_question
