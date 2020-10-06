@@ -18,9 +18,7 @@ personne pe on pe.id_personne=pc.id_personne join personne_preferences pp on pp.
       retourUser.to_json
     else
       request_object = OpenConnectBdd.prepare('INSERT INTO `personne_preferences` (`id_personne`,`experience`) VALUES (?, ?);')
-      request_object.execute(idPeople, experience)
-      retourUser = {"success" => "Les préfèrences ont étés crées et l'éxpérience bien attribuée !"}
-      retourUser.to_json
+      request_object.execute(idPeople, 0)
     end
   else
     request_object = OpenConnectBdd.prepare('UPDATE personne_preferences pp
@@ -32,7 +30,7 @@ INNER JOIN
 ) p ON p.id_personne=pp.id_personne
 SET pp.experience = p.sums
 where pp.id_personne=?;')
-    request_object.execute(idCourse, idPeople)
+    request_object.execute(experience, idPeople)
     hash.to_json
   end
 end
