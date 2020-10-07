@@ -22,4 +22,4 @@ Bdd = Base.new
 Bdd.init
 OpenConnectBdd = Mysql2::Client.new(host: Bdd.host,
                                     database: Bdd.database,
-                                    user: Bdd.user, port: 3307)
+                                    user: Bdd.user)

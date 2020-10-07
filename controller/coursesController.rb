@@ -2,14 +2,12 @@
 load 'requests/courses.rb'
 
 post '/api/experiencePeople' do
-  headers 'Access-Control-Allow-Origin' => '*'
   postExperiencePeople(params[:idPeople], params[:experience])
 end
 
 # ROUTE : {GET}/api/listPeopleCourseById
 # RETURN : JSON of people about a course
 post '/api/listPeopleCourseById' do
-  headers 'Access-Control-Allow-Origin' => '*'
   getListPeopleCourseById(params[:idCourse])
 end
 

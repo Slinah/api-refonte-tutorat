@@ -5,8 +5,11 @@ load 'requests/personne.rb'
 load 'requests/promo.rb'
 
 def postExperiencePeople(idPeople, experience)
-  request_object = OpenConnectBdd.prepare('UPDATE personne_preferences pp INNER JOIN (SELECT id_personne,SUM(experience + ?) sums
-   FROM personne_preferences GROUP BY id_personne ) p ON p.id_personne=pp.id_personne SET pp.experience = p.sums where pp.id_personne=?;')
+
+  # request_object = OpenConnectBdd.prepare('UPDATE personne_preferences pp INNER JOIN (SELECT id_personne,SUM(experience + ?) sums
+  #  FROM personne_preferences GROUP BY id_personne ) p ON p.id_personne=pp.id_personne SET pp.experience = p.sums where pp.id_personne=?;')
+
+  request_object = OpenConnectBdd.prepare('UPDATE personne_preferences pp SET pp.experience=pp.experience+? WHERE pp.id_personne=?;')
   request_object.execute(experience, idPeople)
 end
 
