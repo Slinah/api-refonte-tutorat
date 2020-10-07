@@ -2,14 +2,12 @@
 load 'requests/courses.rb'
 
 post '/api/experiencePeople' do
-  headers 'Access-Control-Allow-Origin' => '*'
-  postExperiencePeople(params[:idPeople],params[:experience],params[:idCourse])
+  postExperiencePeople(params[:idPeople], params[:experience])
 end
 
 # ROUTE : {GET}/api/listPeopleCourseById
 # RETURN : JSON of people about a course
 post '/api/listPeopleCourseById' do
-  headers 'Access-Control-Allow-Origin' => '*'
   getListPeopleCourseById(params[:idCourse])
 end
 
@@ -36,23 +34,23 @@ end
 # ROUTE : {POST}/api/postCourse
 # PARAM : String : id_personne (uuid) // String : id_matiere (uuid) // String : id_promo (uuid) // String : intitule // timestamp : date // String : commentaires
 post '/api/postCourse' do
-  postCourse(params[:id_personne], params[:id_matiere], params[:id_promo], params[:intitule], params[:date], params[:commentaires] )
+  postCourse(params[:id_personne], params[:id_matiere], params[:id_promo], params[:intitule], params[:date], params[:commentaires])
 end
 
 # modification complète du cours
 # ROUTE : {POST}/api/postModifCourse
 # PARAM : tous les paramètres correspondant aux cours
 post '/api/postModifCourse' do
-  postModifCourse(params[:id_cours],params[:id_matiere],params[:id_promo],params[:intitule],params[:date],params[:commentaires],
-                  params[:nb_participants],params[:duree],params[:salle])
+  postModifCourse(params[:id_cours], params[:id_matiere], params[:id_promo], params[:intitule], params[:date], params[:commentaires],
+                  params[:nb_participants], params[:duree], params[:salle])
 end
 
 # modification complète du cours & cloture
 # ROUTE : {POST}/api/postCloseCourse
 # PARAM : tous les paramètres correspondant aux cours
 post '/api/postCloseCourse' do
-  postCloseCourse(params[:id_cours],params[:id_matiere],params[:id_promo],params[:intitule],params[:date],params[:commentaires],
-                  params[:nb_participants],params[:duree],params[:salle])
+  postCloseCourse(params[:id_cours], params[:id_matiere], params[:id_promo], params[:intitule], params[:date], params[:commentaires],
+                  params[:nb_participants], params[:duree], params[:salle])
 end
 
 # ROUTE : {GET}/bot/unclosedCourses

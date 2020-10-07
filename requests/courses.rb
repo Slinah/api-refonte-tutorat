@@ -4,35 +4,13 @@
 load 'requests/personne.rb'
 load 'requests/promo.rb'
 
-def postExperiencePeople(idPeople, experience, idCourse)
-  request_object = OpenConnectBdd.prepare('SELECT * from cours c join personne_cours pc on c.id_cours=pc.id_cours join
-personne pe on pe.id_personne=pc.id_personne join personne_preferences pp on pp.id_personne=pe.id_personne where pe.id_personne=? and c.id_cours=? and c.status=0')
-  request_object = request_object.execute(idPeople,idCourse)
-  hash = request_object.each(&:to_h)
-  if hash.length.zero?
-    request_object = OpenConnectBdd.prepare('SELECT * from personne where id_personne=?')
-    request_object = request_object.execute(idPeople)
-    hash2 = request_object.each(&:to_h)
-    if hash2.length.zero?
-      retourUser = {"error" => "l'utilisateur n'éxiste pas !"}
-      retourUser.to_json
-    else
-      request_object = OpenConnectBdd.prepare('INSERT INTO `personne_preferences` (`id_personne`,`experience`) VALUES (?, ?);')
-      request_object.execute(idPeople, 0)
-    end
-  else
-    request_object = OpenConnectBdd.prepare('UPDATE personne_preferences pp
-INNER JOIN
-(
-   SELECT id_personne,SUM(experience + ?) sums
-   FROM personne_preferences
-   GROUP BY id_personne
-) p ON p.id_personne=pp.id_personne
-SET pp.experience = p.sums
-where pp.id_personne=?;')
-    request_object.execute(experience, idPeople)
-    hash.to_json
-  end
+def postExperiencePeople(idPeople, experience)
+
+  # request_object = OpenConnectBdd.prepare('UPDATE personne_preferences pp INNER JOIN (SELECT id_personne,SUM(experience + ?) sums
+  #  FROM personne_preferences GROUP BY id_personne ) p ON p.id_personne=pp.id_personne SET pp.experience = p.sums where pp.id_personne=?;')
+
+  request_object = OpenConnectBdd.prepare('UPDATE personne_preferences pp SET pp.experience=pp.experience+? WHERE pp.id_personne=?;')
+  request_object.execute(experience, idPeople)
 end
 
 def getListPeopleCourseById(idCourse)
