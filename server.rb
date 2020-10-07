@@ -8,7 +8,7 @@ configure do
   enable :cross_origin
 end
 before do
-  response.headers['Access-Control-Allow-Origin'] = 'http://workshop'
+  response.headers['Access-Control-Allow-Origin'] = 'https://scratchoverflow.fr'
 end
 
 #routes
